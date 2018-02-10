@@ -7,8 +7,7 @@
 	[Parameters] varchar(256) NOT NULL,
 	[Passed] INT NULL,
 	Primary Key (TestId, TestVersion, ProcId),
-	Foreign Key (TestId) references Test(TestId),
-	Foreign Key (TestVersion) references Test(TestVersion),
+	Foreign Key (TestId, TestVersion) references Test(TestId, TestVersion),
 	Foreign Key (ProcId) references [Procedure](ProcId),
 	Foreign Key (ReqId) references Requirement(ReqId)
 

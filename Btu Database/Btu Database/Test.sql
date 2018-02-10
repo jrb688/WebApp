@@ -8,6 +8,6 @@
 	[DateCreated] datetime NOT NULL,
 	[DateRun] datetime NULL,
 	PRIMARY KEY (TestId, TestVersion),
-	Foreign Key (UserID) References [User](UserId),
+	Foreign Key (UserId) References [User](UserId),
 	Foreign Key (EcuId) References [ECU](EcuId)
 )

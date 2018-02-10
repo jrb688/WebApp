@@ -1,0 +1,5 @@
+c:\users\zakaru99\source\repos\Btu Database\Btu Database\bin\Debug\Btu Database.dacpac
+c:\users\zakaru99\source\repos\Btu Database\Btu Database\obj\Debug\Btu_Database.dll
+c:\users\zakaru99\source\repos\Btu Database\Btu Database\obj\Debug\Btu_Database.pdb
+c:\users\zakaru99\source\repos\Btu Database\Btu Database\bin\Debug\Btu_Database.dll
+c:\users\zakaru99\source\repos\Btu Database\Btu Database\bin\Debug\Btu_Database.pdb

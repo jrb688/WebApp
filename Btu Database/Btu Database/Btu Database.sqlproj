@@ -58,4 +58,15 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="ECU.sql" />
+    <Build Include="User.sql" />
+    <Build Include="Simulator.sql" />
+    <Build Include="Batch.sql" />
+    <Build Include="Test.sql" />
+    <Build Include="Procedure.sql" />
+    <Build Include="Requirement.sql" />
+    <Build Include="TestProc.sql" />
+    <Build Include="BatchTest.sql" />
+  </ItemGroup>
 </Project>

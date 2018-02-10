@@ -6,8 +6,6 @@
 	[TestVersion] INT NOT NULL,
 	[Passed] INT NULL,
 	Primary Key (BatchId, BatchVersion, TestId, TestVersion),
-	Foreign Key (BatchId) References Batch(BatchId),
-	Foreign Key (BatchVersion) References Batch(BatchVersion),
-	Foreign Key (TestId) References Test(TestId),
-	Foreign Key (TestVersion) References Test(TestVersion)
+	Foreign Key (BatchId, BatchVersion) References Batch(BatchId, BatchVersion),
+	Foreign Key (TestId, TestVersion) References Test(TestId, TestVersion)
 )
