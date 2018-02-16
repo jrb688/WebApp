@@ -9,3 +9,14 @@ C:\Users\Zakaru99\source\repos\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\W
 C:\Users\Zakaru99\source\repos\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.AssemblyInfo.cs
 C:\Users\Zakaru99\source\repos\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.dll
 C:\Users\Zakaru99\source\repos\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.pdb
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.deps.json
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.runtimeconfig.json
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.runtimeconfig.dev.json
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.dll
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.pdb
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.AssemblyInfoInputs.cache
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.AssemblyInfo.cs
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.dll
+C:\Users\Administrator\Source\Repos\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.pdb
