@@ -3,3 +3,8 @@ c:\users\zakaru99\source\repos\Btu Database\Btu Database\obj\Debug\Btu_Database.
 c:\users\zakaru99\source\repos\Btu Database\Btu Database\obj\Debug\Btu_Database.pdb
 c:\users\zakaru99\source\repos\Btu Database\Btu Database\bin\Debug\Btu_Database.dll
 c:\users\zakaru99\source\repos\Btu Database\Btu Database\bin\Debug\Btu_Database.pdb
+C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\bin\Debug\Btu Database.dacpac
+C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Database.dll
+C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Database.pdb
+C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.dll
+C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.pdb
