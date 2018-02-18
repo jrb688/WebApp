@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebAppCore.Data;
+using WebAppCore.Models;
 
 namespace WebAppCore
 {
@@ -23,7 +24,7 @@ namespace WebAppCore
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<BtuContext>();
+                    var context = services.GetRequiredService<Btu_DatabaseContext>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
