@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\EditTest\EditTest.cshtml" />
     <Content Remove="Views\Index.cshtml" />
+    <Content Remove="Views\ViewTest\ViewTest.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\EditTest\EditTest.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\ViewTest\ViewTest.cshtml" />
   </ItemGroup>
 
 </Project>
