@@ -5,9 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\EditTest\EditTest.cshtml" />
+    <Compile Remove="Views\EditTest\**" />
+    <Compile Remove="Views\ViewTest\**" />
+    <Content Remove="Views\EditTest\**" />
+    <Content Remove="Views\ViewTest\**" />
+    <EmbeddedResource Remove="Views\EditTest\**" />
+    <EmbeddedResource Remove="Views\ViewTest\**" />
+    <None Remove="Views\EditTest\**" />
+    <None Remove="Views\ViewTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Index.cshtml" />
-    <Content Remove="Views\ViewTest\ViewTest.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\EditTest\EditTest.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\ViewTest\ViewTest.cshtml" />
   </ItemGroup>
 
 </Project>
