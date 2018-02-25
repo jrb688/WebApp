@@ -21,7 +21,7 @@ namespace WebAppCore.Controllers
         // GET: CreateNewAccount
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View();
         }
 
         // GET: CreateNewAccount/Details/5
@@ -59,9 +59,9 @@ namespace WebAppCore.Controllers
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(user);
+            return View("Index");
         }
 
         // GET: CreateNewAccount/Edit/5
