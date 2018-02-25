@@ -1,0 +1,187 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Honeywell BTU</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">View Queues <span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="panel panel-defualt">
+    <div class="panel-body">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-primary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch ID
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch Name
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Simulator
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option3" autocomplete="off"> ECU
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Tester
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Conducted
+              </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Filters</h3>
+  </div>
+  <div class="panel-body">
+      <div class="col-lg-3">
+          Simulator
+          <div class="input-group">
+              <input type="text" class="form-control" aria-label="...">
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default">Apply</button>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          ECU
+          <div class="input-group">
+              <input type="text" class="form-control" aria-label="...">
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default">Apply</button>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          Tester
+          <div class="input-group">
+              <input type="text" class="form-control" aria-label="...">
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default">Apply</button>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-3">
+          <div>Status</div>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Queued
+            </label>
+            <label class="btn btn-primary">
+              <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Running
+            </label>
+            <label class="btn btn-primary">
+              <input type="checkbox" name="options" id="option2" autocomplete="off"> Completed
+            </label>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Filtered Queue</div>
+
+  <!-- Table -->
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Batch ID</th>
+              <th>Batch Name</th>
+              <th>Simulator</th>
+              <th>ECU</th>
+              <th>Tester</th>
+              <th>Status</th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr class="warning">
+              <td>1</td>
+              <td>Fire</td>
+              <td>1</td>
+              <td>1</td>
+              <td>Jacob</td>
+              <td>Queued</td>
+              <td></td>
+          </tr>
+          <tr class="success">
+              <td>2</td>
+              <td>Turbulence</td>
+              <td>2</td>
+              <td>2</td>
+              <td>Josh</td>
+              <td>Completed</td>
+              <td><button type="button" class="btn btn-info">View Results</button> <button type="button" class="btn btn-danger">Remove</button></td>
+          </tr>
+          <tr class="info">
+              <td>3</td>
+              <td>Turbulence</td>
+              <td>3</td>
+              <td>3</td>
+              <td>Jimmy</td>
+              <td>Running</td>
+              <td></td>
+          </tr>
+      </tbody>
+  </table>
+</div>

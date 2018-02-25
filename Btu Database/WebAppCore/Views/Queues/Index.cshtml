@@ -1,0 +1,128 @@
+﻿@model IEnumerable<WebAppCore.Models.Batch>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-defualt">
+    <div class="panel-body">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch ID
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch Name
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Simulator
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> ECU
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Tester
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Conducted
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Filters</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-lg-3">
+            Simulator
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default">Apply</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            ECU
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default">Apply</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            Tester
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="...">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default">Apply</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div>Status</div>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Queued
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Running
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" name="options" id="option2" autocomplete="off"> Completed
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Filtered Queue</div>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Batch ID</th>
+                <th>Batch Name</th>
+                <th>Simulator</th>
+                <th>ECU</th>
+                <th>Tester</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model){
+                if (item.Status == "Queued") {@Html.Raw("<tr class='warning'>")}
+                else if (item.Status == "Running") {@Html.Raw("<tr class='success'>")}
+                else {@Html.Raw("<tr class='info'>")}
+
+                    <td>@Html.DisplayFor(modelItem => item.BatchId) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SimId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Sim.EcuId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>@if (item.Status == "Queued") {@Html.Raw("<button type = 'button' class='btn btn-danger'>Remove from Queue")}
+                    else if (item.Status == "Completed") {@Html.Raw("<button type = 'button' class='btn btn-info'>View Results</button> <button type = 'button' class='btn btn-danger'>Remove</button>")}
+                        </td>
+                @Html.Raw("</tr>")
+            }
+        </tbody>
+    </table>
+</div>
