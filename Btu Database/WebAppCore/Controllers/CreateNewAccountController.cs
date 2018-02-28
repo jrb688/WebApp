@@ -21,7 +21,7 @@ namespace WebAppCore.Controllers
         // GET: CreateNewAccount
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View();
         }
 
         // GET: CreateNewAccount/Details/5
@@ -53,15 +53,15 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Password,Email,Privilege")] User user)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Password,Email,Privilege")] User user)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(user);
+            return View("Index");
         }
 
         // GET: CreateNewAccount/Edit/5
