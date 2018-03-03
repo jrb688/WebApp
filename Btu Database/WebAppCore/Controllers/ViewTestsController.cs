@@ -19,10 +19,18 @@ namespace WebAppCore.Controllers
         }
 
         // GET: ViewTests
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             var btu_DatabaseContext = _context.Test.Include(t => t.Ecu).Include(t => t.User);
-            return View(await btu_DatabaseContext.ToListAsync());
+            var test = from info in btu_DatabaseContext
+                         select info;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                test = test.Where(s => s.Name.Contains(searchString));
+            }
+
+            return View(await test.ToListAsync());
         }
 
         // GET: ViewTests/Details/5

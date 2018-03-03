@@ -1,60 +1,278 @@
-﻿@model IEnumerable<WebAppCore.Models.Test>
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="firefox">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+        <link rel="icon" href="../../favicon.ico">
+        <title>View Test</title>
 
-<h2>Index</h2>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateRun)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ecu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateRun)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ecu.EcuModel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div class="panel panel-defualt">
+            <div class="panel-body">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" aria-label="...">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Test ID
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Date
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> Author
+                        </label>
+                        <label class="btn btn-primary">
+                            <input type="radio" name="options" id="option4" autocomplete="off"> ECU
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
+                                Test ID: 1456
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion21">
+                                    <div class="panel">
+                                        <a data-toggle="collapse" data-parent="#accordion21" href="#collapseTwoOne">Version Number: 1.1 &raquo;</a>
+                                        <div id="collapseTwoOne" class="panel-collapse collapse">
+                                            <div class="panel panel-default">
+                                                <!-- Default panel contents -->
+                                                <!-- Table -->
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Test ID</th>
+                                                            <th>Created By</th>
+                                                            <th>Test Conducted</th>
+                                                            <th>ECU</th>
+                                                            <th>Version #</th>
+                                                            <th>Test Passed</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="info1">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Requirements</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <!-- Table -->
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Requirement ID</th>
+                                                        <th>Information</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="requirements">
+                                                        <td>001</td>
+                                                        <td>This is where the information about the requirement will be displayed</td>
+
+                                                    </tr>
+                                                    <tr class="requirements">
+                                                        <td>002</td>
+                                                        <td>This is where the information about the requirement will be displayed</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Procedures</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <!-- Table -->
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Procedure Number</th>
+                                                        <th>Procedure Name</th>
+                                                        <th>Required Parameters</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="procedures">
+                                                        <td>001</td>
+                                                        <td>Start Engine</td>
+                                                        <td>Engine Select
+
+                                                    </tr>
+                                                    <tr class="information">
+                                                        <td>002</td>
+                                                        <td>Takeoff</td>
+                                                        <td>NONE</td>
+                                                    </tr>
+                                                    <tr class="information">
+                                                        <td>003</td>
+                                                        <td>Cruse</td>
+                                                        <td>Altitude, Speed</td>
+                                                    </tr>
+                                                    <tr class="information">
+                                                        <td>004</td>
+                                                        <td>Land</td>
+                                                        <td>NONE</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel ">
+                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapseTwoTwo">Version Number: 1 &raquo;</a>
+                                    <div id="collapseTwoTwo" class="panel-collapse collapse">
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <!-- Table -->
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Test ID</th>
+                                                        <th>Created By</th>
+                                                        <th>Test Conducted</th>
+                                                        <th>ECU</th>
+                                                        <th>Version #</th>
+                                                        <th>Test Passed</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="info1">
+                                                        <td>1456</td>
+                                                        <td>John Doe</td>
+                                                        <td>False</td>
+                                                        <td>23A</td>
+                                                        <td>1</td>
+                                                        <td>False</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Requirements</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <!-- Table -->
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Requirement ID</th>
+                                                        <th>Information</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="requirements">
+                                                        <td>001</td>
+                                                        <td>This is where the information about the requirement will be displayed</td>
+
+                                                    </tr>
+                                                    <tr class="requirements">
+                                                        <td>002</td>
+                                                        <td>This is where the information about the requirement will be displayed</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Procedures</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <!-- Table -->
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Procedure Number</th>
+                                                        <th>Procedure Name</th>
+                                                        <th>Required Parameters</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="procedures">
+                                                        <td>001</td>
+                                                        <td>Start Engine</td>
+                                                        <td>Engine Select
+
+                                                    </tr>
+                                                    <tr class="information">
+                                                        <td>002</td>
+                                                        <td>Takeoff</td>
+                                                        <td>NONE</td>
+                                                    </tr>
+                                                    <tr class="information">
+                                                        <td>003</td>
+                                                        <td>Cruse</td>
+                                                        <td>Altitude, Speed</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
