@@ -7,10 +7,10 @@
 
 <h2>View Test</h2>
 
-<form asp-controller="ViewTestsController" asp-action="Index" method="post">
+<form asp-controller="ViewTestsController"  method="get">
     <p>
         Search: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
+            <button asp-action="Index" class="btn btn-sm btn-primary btn-block signup-btn" type="submit"> filter</button>
     </p>
 </form>
 
