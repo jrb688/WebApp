@@ -19,10 +19,59 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string options)
         {
             var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser);
-            return View(await btu_DatabaseContext.ToListAsync());
+            var results = from info in btu_DatabaseContext select info;
+            results = results.Where(s => (s.Status.Equals("Queued") | s.Status.Equals("Complete") | s.Status.Equals("Running")));
+            if(options != null)
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    if (options.Equals("BatchId"))
+                    {
+                        results = results.Where(s => s.BatchId.Equals(Int32.Parse(searchString)));
+                    }
+                    else if (options.Equals("BatchName"))
+                    {
+                        results = results.Where(s => s.Name.Contains(searchString));
+                    }
+                    else if (options.Equals("Sim"))
+                    {
+                        results = results.Where(s => s.SimId.Equals(Int32.Parse(searchString)));
+                    }
+                    else if (options.Equals("Ecu"))
+                    {
+                        results = results.Where(s => s.Sim.Ecu.EcuModel.Contains(searchString));
+                    }
+                    else if (options.Equals("Tester"))
+                    {
+                        results = results.Where(s => (s.TesterUser.FirstName + " " + s.TesterUser.LastName).Contains(searchString));
+                    }
+                }
+                
+            }
+            
+            return View(await results.ToListAsync());
+        }
+
+        // POST: Queues/Delete/5
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id);
+            _context.Update(batch);
+            if (batch.Status.Equals("Complete"))
+            {
+                batch.Display = 0;
+            }
+            else if(batch.Status.Equals("Queued"))
+            {
+                batch.Status = "Made";
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Queues/Details/5
