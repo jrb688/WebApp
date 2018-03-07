@@ -21,7 +21,7 @@ namespace WebAppCore.Controllers
         // GET: Queues
         public async Task<IActionResult> Index(string searchString, string options)
         {
-            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser);
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.Sim.Ecu).Include(b => b.TesterUser);
             var results = from info in btu_DatabaseContext select info;
             results = results.Where(s => (s.Status.Equals("Queued") | s.Status.Equals("Complete") | s.Status.Equals("Running")));
             if(options != null)
