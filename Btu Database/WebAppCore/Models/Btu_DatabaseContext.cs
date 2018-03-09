@@ -20,6 +20,7 @@ namespace WebAppCore.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV13;Database=Btu Database;Trusted_Connection=True;");
             }
         }
@@ -174,7 +175,7 @@ namespace WebAppCore.Models
 
             modelBuilder.Entity<TestProc>(entity =>
             {
-                entity.HasKey(e => new { e.TestId, e.TestVersion, e.ProcId });
+                entity.HasKey(e => new { e.TestId, e.TestVersion, e.ProcId, e.BatchId, e.BatchVersion });
 
                 entity.Property(e => e.Parameters)
                     .IsRequired()
@@ -192,6 +193,12 @@ namespace WebAppCore.Models
                     .HasForeignKey(d => d.ReqId)
                     .HasConstraintName("FK__TestProc__ReqId__3D5E1FD2");
 
+                entity.HasOne(d => d.Batch)
+                    .WithMany(p => p.TestProc)
+                    .HasForeignKey(d => new { d.BatchId, d.BatchVersion })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TestProc__3E52440B");
+
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.TestProc)
                     .HasForeignKey(d => new { d.TestId, d.TestVersion })
@@ -201,8 +208,6 @@ namespace WebAppCore.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.UserId).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(32)

@@ -88,8 +88,11 @@
                                     <div id="collapse2_@testNum" class="panel-collapse collapse">
                                         @foreach(var proc in item.Test.TestProc)
                                         {
-                                            bool procPassed = (proc.Passed == 1);
-                                            <div class="panel-body" style="padding-top:5px; padding-bottom:5px; padding-left:15px;"><h4>@Html.DisplayFor(ModelItem => proc.Proc.Name) @if (procPassed) {<span class="label label-success">Success</span>} else{<span class="label label-danger">Fail</span>}</h4></div>
+                                            if (proc.BatchId == item.BatchId && proc.BatchVersion == item.BatchVersion)
+                                            {
+                                                bool procPassed = (proc.Passed == 1);
+                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px; padding-left:15px;"><h4>@Html.DisplayFor(ModelItem => proc.Proc.Name) @if (procPassed) {<span class="label label-success">Success</span>} else{<span class="label label-danger">Fail</span>}</h4></div>
+                                            }
                                         }
                                     </div>   
                                 </div>
