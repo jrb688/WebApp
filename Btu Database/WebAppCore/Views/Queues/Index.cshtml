@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<div class="panel panel-default">
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Filters</h3>
     </div>
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
@@ -117,7 +117,7 @@
                         else if (item.Status == "Complete")
                         {@Html.Raw("<tr class='info'>")}
 
-                            <td>@Html.DisplayFor(modelItem => item.BatchId) </td>
+                            <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.SimId)</td>
                             <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
@@ -126,7 +126,7 @@
                             <td>@if (item.Status == "Queued")
                             {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove from Queue</button>}
                             else if (item.Status == "Complete")
-                            {<button type="submit" class='btn btn-info' asp-action="Details" asp-route-id="@item.BatchId">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
+                            {<button type="submit" class='btn btn-info' asp-controller="BatchTests" asp-action="Details" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
                                 </td>
                         @Html.Raw("</tr>")
                     }
