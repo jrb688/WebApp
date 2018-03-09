@@ -7,36 +7,35 @@
 
 <div class="panel panel-defualt">
     <div class="panel-body">
-        <div class="col-lg-6">
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="...">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default">Search</button>
+        <form method="get" accept-charset="utf-8" class="form" role="form">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="SearchString">
+                    <div class="input-group-btn">
+                        <button asp-action="Index" class="btn btn-default" type="submit">Search</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch ID
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Batch Name
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Simulator
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> ECU
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> Tester
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> Conducted
-                </label>
+            <div class="col-lg-6">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        @Html.RadioButton("options", "BatchId", new { @checked = "checked" }) <span>Batch ID</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "BatchName") <span>Batch Name</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "Sim") <span>Simulator</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "Ecu") <span>ECU</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "Tester") <span>Tester</span>
+                    </label>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -94,35 +93,45 @@
     <div class="panel-heading">Filtered Queue</div>
 
     <!-- Table -->
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Batch ID</th>
-                <th>Batch Name</th>
-                <th>Simulator</th>
-                <th>ECU</th>
-                <th>Tester</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model){
-                if (item.Status == "Queued") {@Html.Raw("<tr class='warning'>")}
-                else if (item.Status == "Running") {@Html.Raw("<tr class='success'>")}
-                else {@Html.Raw("<tr class='info'>")}
+    <form method="post" accept-charset="utf-8" class="form" role="form">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Batch Name</th>
+                    <th>Simulator</th>
+                    <th>ECU</th>
+                    <th>Tester</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model){
+                    if (item.Display == 1)
+                    {
+                        if (item.Status == "Queued")
+                        {@Html.Raw("<tr class='warning'>")}
+                        else if (item.Status == "Running")
+                        {@Html.Raw("<tr class='success'>")}
+                        else if (item.Status == "Complete")
+                        {@Html.Raw("<tr class='info'>")}
 
-                    <td>@Html.DisplayFor(modelItem => item.BatchId) </td>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SimId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Sim.EcuId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                    <td>@if (item.Status == "Queued") {@Html.Raw("<button type = 'button' class='btn btn-danger'>Remove from Queue")}
-                    else if (item.Status == "Completed") {@Html.Raw("<button type = 'button' class='btn btn-info'>View Results</button> <button type = 'button' class='btn btn-danger'>Remove</button>")}
-                        </td>
-                @Html.Raw("</tr>")
-            }
-        </tbody>
-    </table>
+                            <td>@Html.DisplayFor(modelItem => item.BatchId) </td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SimId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>@if (item.Status == "Queued")
+                            {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove from Queue</button>}
+                            else if (item.Status == "Complete")
+                            {<button type="submit" class='btn btn-info' asp-action="Details" asp-route-id="@item.BatchId">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
+                                </td>
+                        @Html.Raw("</tr>")
+                    }
+                }
+            </tbody>
+        </table>
+    </form>
 </div>
