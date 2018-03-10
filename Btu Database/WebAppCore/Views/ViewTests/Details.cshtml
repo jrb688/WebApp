@@ -47,14 +47,31 @@
         <dd>
             @Html.DisplayFor(model => model.User.Email)
         </dd>
+    </dl>
+
+    <dl class="dl-horizontal">
         <dt>
             Procedures:
         </dt>
-        <dd>
-            @foreach(var item in Model.TestProc) { 
-                @Html.DisplayFor(model => model.TestProc).Equals(Model.TestId)
-            }
-        </dd>
+        @foreach (var Procedure in Model.TestProc)
+        {
+            <dd>
+                @Html.DisplayFor(ModelItem => Procedure.Proc.Name)
+
+            </dd>
+        }
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            Requirements:
+        </dt>
+        @foreach (var Req in Model.Requirement)
+        {
+            <dd>
+                @Html.DisplayFor(ModelItem => Req.ReqId)
+                @Html.DisplayFor(ModelItem => Req.Description)
+            </dd>
+        }
     </dl>
 </div>
 <div>
