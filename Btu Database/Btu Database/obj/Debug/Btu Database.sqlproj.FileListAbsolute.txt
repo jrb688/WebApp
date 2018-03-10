@@ -8,3 +8,13 @@ C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Da
 C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Database.pdb
 C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.dll
 C:\Users\Zakaru99\source\repos\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.pdb
+C:\Users\Esif\WebApp\Btu Database\Btu Database\bin\Debug\Btu Database.dacpac
+C:\Users\Esif\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Database.dll
+C:\Users\Esif\WebApp\Btu Database\Btu Database\bin\Debug\Btu_Database.pdb
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\Model.xml
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\refactor.xml
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\postdeploy.sql
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\predeploy.sql
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.dll
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\Btu_Database.pdb
+C:\Users\Esif\WebApp\Btu Database\Btu Database\obj\Debug\Btu Database.sqlprojResolveAssemblyReference.cache
