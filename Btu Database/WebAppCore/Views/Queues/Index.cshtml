@@ -5,86 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-defualt">
-    <div class="panel-body">
-        <form method="get" accept-charset="utf-8" class="form" role="form">
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-label="..." name="SearchString">
-                    <div class="input-group-btn">
-                        <button asp-action="Index" class="btn btn-default" type="submit">Search</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-primary active">
-                        @Html.RadioButton("options", "BatchId", new { @checked = "checked" }) <span>Batch ID</span>
-                    </label>
-                    <label class="btn btn-primary">
-                        @Html.RadioButton("options", "BatchName") <span>Batch Name</span>
-                    </label>
-                    <label class="btn btn-primary">
-                        @Html.RadioButton("options", "Sim") <span>Simulator</span>
-                    </label>
-                    <label class="btn btn-primary">
-                        @Html.RadioButton("options", "Ecu") <span>ECU</span>
-                    </label>
-                    <label class="btn btn-primary">
-                        @Html.RadioButton("options", "Tester") <span>Tester</span>
-                    </label>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Filters</h3>
+        <h3 class="panel-title">Search Options</h3>
     </div>
     <div class="panel-body">
-        <div class="col-lg-3">
-            Simulator
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="...">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default">Apply</button>
+        <form method="post" accept-charset="utf-8" class="form" role="form">
+            <div class="col-lg-3">
+                Batch ID
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="BatchId">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            ECU
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="...">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default">Apply</button>
+            <div class="col-lg-3">
+                Batch Name
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="BatchName">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            Tester
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="...">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default">Apply</button>
+            <div class="col-lg-3">
+                Simulator
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="SimId">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <div>Status</div>
-            <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary active">
-                    <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Queued
-                </label>
-                <label class="btn btn-primary">
-                    <input type="checkbox" name="options" id="option1" autocomplete="off" checked> Running
-                </label>
-                <label class="btn btn-primary">
-                    <input type="checkbox" name="options" id="option2" autocomplete="off"> Completed
-                </label>
+            <div class="col-lg-3">
+                ECU
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="Ecu">
+                </div>
             </div>
-        </div>
+            <div class="col-lg-3">
+                Tester
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="Tester">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div>Status</div>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input type="checkbox" name="Queued" value="true" autocomplete="off" checked="checked"> Queued
+                    </label>
+                    <label class="btn btn-primary active">
+                        <input type="checkbox" name="Running" value="true" autocomplete="off" checked="checked"> Running
+                    </label>
+                    <label class="btn btn-primary active">
+                        <input type="checkbox" name="Complete" value="true" autocomplete="off" checked="checked"> Complete
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-3" style="padding-top:20px">
+                <button asp-action="Index" class="btn btn-default" type="submit" asp-route-search="true">Search</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -117,7 +91,7 @@
                         else if (item.Status == "Complete")
                         {@Html.Raw("<tr class='info'>")}
 
-                            <td>@Html.DisplayFor(modelItem => item.BatchId) </td>
+                            <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.SimId)</td>
                             <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
@@ -126,7 +100,7 @@
                             <td>@if (item.Status == "Queued")
                             {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove from Queue</button>}
                             else if (item.Status == "Complete")
-                            {<button type="submit" class='btn btn-info' asp-action="Details" asp-route-id="@item.BatchId">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
+                            {<button type="submit" class='btn btn-info' asp-controller="BatchTests" asp-action="Details" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
                                 </td>
                         @Html.Raw("</tr>")
                     }

@@ -8,6 +8,7 @@ namespace WebAppCore.Models
         public Batch()
         {
             BatchTest = new HashSet<BatchTest>();
+            TestProc = new HashSet<TestProc>();
         }
 
         public int BatchId { get; set; }
@@ -25,5 +26,6 @@ namespace WebAppCore.Models
         public Simulator Sim { get; set; }
         public User TesterUser { get; set; }
         public ICollection<BatchTest> BatchTest { get; set; }
+        public ICollection<TestProc> TestProc { get; set; }
     }
 }
