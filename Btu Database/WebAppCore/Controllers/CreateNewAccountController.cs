@@ -53,10 +53,18 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Password,Email,Privilege")] User user)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Password,Email")] User user, bool Privilege = false)
         {
             if (ModelState.IsValid)
             {
+                if (Privilege)
+                {
+                    user.Privilege = "Admin";
+                }
+                else
+                {
+                    user.Privilege = "User";
+                }
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return View("~/Views/Home/Index.cshtml");
