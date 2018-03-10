@@ -19,37 +19,46 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues
-        public async Task<IActionResult> Index(string searchString, string options)
+        public async Task<IActionResult> Index(int? BatchId, string BatchName, int? SimId, string Ecu, string Tester, bool Queued = false, bool Running = false, bool Complete = false, bool search = false)
         {
-            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser);
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.Sim.Ecu).Include(b => b.TesterUser);
             var results = from info in btu_DatabaseContext select info;
             results = results.Where(s => (s.Status.Equals("Queued") | s.Status.Equals("Complete") | s.Status.Equals("Running")));
-            if(options != null)
+            if (search)
             {
-                if (!String.IsNullOrEmpty(searchString))
+                if (BatchId != null)
                 {
-                    if (options.Equals("BatchId"))
-                    {
-                        results = results.Where(s => s.BatchId.Equals(Int32.Parse(searchString)));
-                    }
-                    else if (options.Equals("BatchName"))
-                    {
-                        results = results.Where(s => s.Name.Contains(searchString));
-                    }
-                    else if (options.Equals("Sim"))
-                    {
-                        results = results.Where(s => s.SimId.Equals(Int32.Parse(searchString)));
-                    }
-                    else if (options.Equals("Ecu"))
-                    {
-                        results = results.Where(s => s.Sim.Ecu.EcuModel.Contains(searchString));
-                    }
-                    else if (options.Equals("Tester"))
-                    {
-                        results = results.Where(s => (s.TesterUser.FirstName + " " + s.TesterUser.LastName).Contains(searchString));
-                    }
+                    results = results.Where(s => s.BatchId == BatchId);
                 }
-                
+
+                if (BatchName != null)
+                {
+                    results = results.Where(s => s.Name.Contains(BatchName));
+                }
+                if (SimId != null)
+                {
+                    results = results.Where(s => s.SimId == SimId);
+                }
+                if (Ecu != null)
+                {
+                    results = results.Where(s => s.Sim.Ecu.EcuModel.Contains(Ecu));
+                }
+                if (Tester != null)
+                {
+                    results = results.Where(s => (s.TesterUser.FirstName + ' ' + s.TesterUser.LastName).Contains(Tester));
+                }
+                if (!Queued)
+                {
+                    results = results.Where(s => s.Status.Equals("Complete") | s.Status.Equals("Running"));
+                }
+                if (!Complete)
+                {
+                    results = results.Where(s => s.Status.Equals("Queued") | s.Status.Equals("Running"));
+                }
+                if (!Running)
+                {
+                    results = results.Where(s => s.Status.Equals("Queued") | s.Status.Equals("Complete"));
+                }
             }
             
             return View(await results.ToListAsync());

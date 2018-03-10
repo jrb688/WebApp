@@ -5,14 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View Test</h2>
 
-<form asp-controller="ViewTestsController" asp-action="Index" method="post">
-    <p>
-        Search: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
-</form>
+
+<div class="panel panel-defualt">
+    <div class="panel-body">
+        <form method="get" accept-charset="utf-8" class="form" role="form">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="SearchString">
+                    <div class="input-group-btn">
+                        <button asp-action="Index" class="btn btn-default" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        @Html.RadioButton("options", "TestId", new { @checked = "checked" }) <span>Test ID</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "TestName") <span>Test Name</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "Ecu") <span>ECU</span>
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButton("options", "Tester") <span>Tester</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -21,20 +45,26 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateRun)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Test ID
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestVersion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateRun)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ecu)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                Tester
             </th>
             <th></th>
         </tr>
@@ -44,6 +74,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestVersion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateCreated)
@@ -58,8 +94,10 @@
                 @Html.DisplayFor(modelItem => item.User.Email)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.TestId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TestId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TestId })
+
             </td>
         </tr>
 }

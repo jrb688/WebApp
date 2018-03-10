@@ -19,18 +19,33 @@ namespace WebAppCore.Controllers
         }
 
         // GET: ViewTests
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string options)
         {
             var btu_DatabaseContext = _context.Test.Include(t => t.Ecu).Include(t => t.User);
-            var test = from info in btu_DatabaseContext
+            var results = from info in btu_DatabaseContext
                          select info;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                test = test.Where(s => s.Name.Contains(searchString));
+                if (options.Equals("TestId"))
+                {
+                    results = results.Where(s => s.TestId.Equals(Int32.Parse(searchString)));
+                }
+                else if (options.Equals("TestName"))
+                {
+                    results = results.Where(s => s.Name.Contains(searchString));
+                }
+                else if (options.Equals("Ecu"))
+                {
+                    results = results.Where(s => s.Ecu.EcuModel.Contains(searchString));
+                }
+                else if (options.Equals("Tester"))
+                {
+                    results = results.Where(s => (s.User.FirstName + " " + s.User.LastName).Contains(searchString));
+                }
             }
 
-            return View(await test.ToListAsync());
+            return View(await results.ToListAsync());
         }
 
         // GET: ViewTests/Details/5
@@ -44,7 +59,10 @@ namespace WebAppCore.Controllers
             var test = await _context.Test
                 .Include(t => t.Ecu)
                 .Include(t => t.User)
+                .Include(t => t.TestProc)
+                .ThenInclude(t => t.Procedure)
                 .SingleOrDefaultAsync(m => m.TestId == id);
+
             if (test == null)
             {
                 return NotFound();
@@ -66,10 +84,11 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TestId,TestVersion,UserId,EcuId,Name,DateCreated,DateRun")] Test test)
+        public async Task<IActionResult> Create([Bind("TestId,TestVersion,UserId,EcuId,Name,DateRun")] Test test)
         {
             if (ModelState.IsValid)
             {
+                test.DateCreated = DateTime.Now;
                 _context.Add(test);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
