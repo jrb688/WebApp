@@ -60,7 +60,8 @@ namespace WebAppCore.Controllers
                 .Include(t => t.Ecu)
                 .Include(t => t.User)
                 .Include(t => t.TestProc)
-                .ThenInclude(t => t.Proc)
+                .ThenInclude(tp => tp.Proc)
+                .Include(tr => tr.Requirement)
                 .SingleOrDefaultAsync(m => m.TestId == id);
 
             if (test == null)
