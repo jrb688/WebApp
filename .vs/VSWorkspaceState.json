@@ -5,7 +5,9 @@
     "\\Btu Database\\WebAppCore",
     "\\Btu Database\\WebAppCore\\Controllers",
     "\\Btu Database\\WebAppCore\\Models",
-    "\\Btu Database\\WebAppCore\\Views"
+    "\\Btu Database\\WebAppCore\\Views",
+    "\\Btu Database\\WebAppCore\\Views\\Queues",
+    "\\Btu Database\\WebAppCore\\Views\\SearchTestBatches"
   ],
   "SelectedNode": "\\Btu Database\\Btu Application.sln",
   "PreviewInSolutionExplorer": false

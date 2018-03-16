@@ -5,74 +5,80 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Search Options</h3>
+    </div>
+    <div class="panel-body">
+        <form method="post" accept-charset="utf-8" class="form" role="form">
+            <div class="col-lg-3">
+                Batch ID
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="BatchId">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                Batch Name
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="BatchName">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                Simulator
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="SimId">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                ECU
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="Ecu">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                Tester
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="..." name="Tester">
+                </div>
+            </div>
+            <div class="col-lg-3" style="padding-top:20px">
+                <button asp-action="Index" class="btn btn-default" type="submit" asp-route-search="true">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Status)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateCreated)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateRun)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Display)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AuthorUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sim)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TesterUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateRun)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Display)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorUser.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sim.SimId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TesterUser.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Batches</div>
+
+    <!-- Table -->
+    <form method="post" accept-charset="utf-8" class="form" role="form">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Batch Name</th>
+                    <th>Simulator</th>
+                    <th>ECU</th>
+                    <th>Tester</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+        <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
+        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+        <td>@Html.DisplayFor(modelItem => item.SimId)</td>
+        <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
+        <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
+        <td>
+    </td>
+    @Html.Raw("</tr>")
 }
-    </tbody>
-</table>
+}
+            </table>
+        </form>
+    </div>
