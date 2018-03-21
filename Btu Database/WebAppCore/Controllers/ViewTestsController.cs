@@ -107,7 +107,13 @@ namespace WebAppCore.Controllers
                 return NotFound();
             }
 
-            var test = await _context.Test.SingleOrDefaultAsync(m => m.TestId == id);
+            var test = await _context.Test
+                .Include(t => t.Ecu)
+                .Include(t => t.User)
+                .Include(t => t.TestProc)
+                .ThenInclude(tp => tp.Proc)
+                .Include(tr => tr.Requirement)
+                .SingleOrDefaultAsync(m => m.TestId == id); ;
             if (test == null)
             {
                 return NotFound();
