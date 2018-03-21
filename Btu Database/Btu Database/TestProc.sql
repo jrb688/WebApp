@@ -8,6 +8,7 @@
 	[ReqId] INT NULL,
 	[Parameters] varchar(256) NOT NULL,
 	[Passed] INT NULL,
+	[Order] INT NOT NULL,
     Primary Key (TestId, TestVersion, ProcId, BatchId, BatchVersion),
 	Foreign Key (TestId, TestVersion) references Test(TestId, TestVersion),
 	Foreign Key (ProcId) references [Procedure](ProcId),
