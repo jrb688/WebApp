@@ -1,0 +1,44 @@
+﻿@model WebAppCore.Models.TestProc
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>TestProc</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddProc">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BatchId" />
+            <input type="hidden" asp-for="BatchVersion" />
+            <input type="hidden" asp-for="TestId" />
+            <input type="hidden" asp-for="TestVersion" />
+            <div class="form-group">
+                <label asp-for="ProcId" class="control-label"></label>
+                <input asp-for="ProcId" class="form-control" />
+                <span asp-validation-for="ProcId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReqId" class="control-label"></label>
+                <Input asp-for="ReqId" class="form-control" />
+                <span asp-validation-for="ReqId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parameters" class="control-label"></label>
+                <input asp-for="Parameters" class="form-control" />
+                <span asp-validation-for="Parameters" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Passed" class="control-label"></label>
+                <input asp-for="Passed" class="form-control" />
+                <span asp-validation-for="Passed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
