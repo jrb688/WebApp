@@ -160,6 +160,43 @@ namespace WebAppCore.Controllers
             return View(test);
         }
 
+        // POST: ViewTests/AddProc
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProc(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters")] TestProc Procedure)
+        {
+            if (id != Procedure.TestId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Procedure.BatchId = 0;
+                    Procedure.BatchVersion = 0;
+                    Procedure.Parameters = "Test";
+                    _context.Update(Procedure);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TestExists(Procedure.ProcId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(Procedure);
+        }
         // GET: ViewTests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

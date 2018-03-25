@@ -45,12 +45,15 @@
             </div>
 
         </form>
-
+        <h2>Current Procedures: </h2>
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        Current Procedures:
+                        Name
+                    </th>
+                    <th>
+                        Parameters
                     </th>
                     <th></th>
                 </tr>
@@ -61,6 +64,9 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(ModelItem => Procedures.Proc.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(ModelItem => Procedures.Parameters)
                     </td>
                     <td>
                         @Html.ActionLink("Delete", "DeleteProc", new { id = Procedures.TestId, ProcID = Procedures.Proc.ProcId })
@@ -100,7 +106,13 @@
         </table>
 
         <h2>Add Procedure</h2>
-        
+
+        @{var index = 0;
+        await Html.RenderPartialAsync("addProcedurePartial", new WebAppCore.Models.TestProc());
+        }
+
+
+
     </div>
 </div>
 
