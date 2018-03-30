@@ -132,15 +132,39 @@ namespace WebAppCore.Controllers
             return View(batch);
         }
 
+        // POST: Queues/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateNew([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
+        {
+            batch.Status = "Made";
+            batch.DateCreated = DateTime.Now;
+            batch.Display = 1;
+            batch.TesterUserId = null;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(batch);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Edit), new { id = batch.BatchId, version = batch.BatchVersion });
+            }
+            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", batch.AuthorUserId);
+            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", batch.SimId);
+            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", batch.TesterUserId);
+            return RedirectToAction(nameof(Create));
+        }
+
         // GET: Queues/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? version)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id);
+            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id && m.BatchVersion == version);
             if (batch == null)
             {
                 return NotFound();
@@ -173,6 +197,44 @@ namespace WebAppCore.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!BatchExists(batch.BatchId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", batch.AuthorUserId);
+            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", batch.SimId);
+            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", batch.TesterUserId);
+            return View(batch);
+        }
+
+        // POST: Queues/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditNew([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
+        {
+            var currentState = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == batch.BatchId && m.BatchVersion == batch.BatchVersion);
+            currentState.AuthorUserId = batch.AuthorUserId;
+            currentState.Name = batch.Name;
+            currentState.SimId = batch.SimId;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(currentState);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BatchExists(currentState.BatchId))
                     {
                         return NotFound();
                     }
@@ -224,6 +286,12 @@ namespace WebAppCore.Controllers
         private bool BatchExists(int id)
         {
             return _context.Batch.Any(e => e.BatchId == id);
+        }
+
+        // GET: Queues/AddTests/5
+        public async Task<IActionResult> AddTests(int? BatchId, int? BatchVersion)
+        {
+            return RedirectToAction("AddTests", "BatchTests", new { Batchid = BatchId, Batchversion = BatchVersion });
         }
     }
 }

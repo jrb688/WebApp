@@ -9,64 +9,59 @@
 
 <h4>Batch</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BatchId" class="control-label"></label>
-                <input asp-for="BatchId" class="form-control" />
-                <span asp-validation-for="BatchId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BatchVersion" class="control-label"></label>
-                <input asp-for="BatchVersion" class="form-control" />
-                <span asp-validation-for="BatchVersion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AuthorUserId" class="control-label"></label>
-                <select asp-for="AuthorUserId" class ="form-control" asp-items="ViewBag.AuthorUserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TesterUserId" class="control-label"></label>
-                <select asp-for="TesterUserId" class ="form-control" asp-items="ViewBag.TesterUserId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SimId" class="control-label"></label>
-                <select asp-for="SimId" class ="form-control" asp-items="ViewBag.SimId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateRun" class="control-label"></label>
-                <input asp-for="DateRun" class="form-control" />
-                <span asp-validation-for="DateRun" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Display" class="control-label"></label>
-                <input asp-for="Display" class="form-control" />
-                <span asp-validation-for="Display" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+<div class="panel panel-default">
+    <form asp-action="CreateNew">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Batch Version</th>
+                    <th>Author</th>
+                    <th>Simulator</th>
+                    <th>Batch Name</th>
+                </tr>
+            </thead>
 
+            <tbody>
+                <tr class="info1">
+                    <td>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input asp-for="BatchId" class="form-control" />
+                            <span asp-validation-for="BatchId" class="text-danger"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input asp-for="BatchVersion" class="form-control" />
+                            <span asp-validation-for="BatchVersion" class="text-danger"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="AuthorUserId" class="form-control" asp-items="ViewBag.AuthorUserId"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="SimId" class="form-control" asp-items="ViewBag.SimId"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </form>
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

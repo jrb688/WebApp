@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using WebAppCore.Models;
 
 namespace WebAppCore.Controllers
@@ -167,6 +168,36 @@ namespace WebAppCore.Controllers
         private bool BatchTestExists(int id)
         {
             return _context.BatchTest.Any(e => e.BatchId == id);
+        }
+
+        // GET: Queues/AddTests/5
+        public async Task<IActionResult> AddTests(int? Batchid, int? Batchversion)
+        {
+            var btu_DatabaseContext = _context.Test;
+            return View(await btu_DatabaseContext.ToListAsync());
+        }
+
+        // Post: Queues/AddTests/5
+        [HttpPost, ActionName("AddTests")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTests(int TestId, int Batchid, int Batchversion)
+        {
+            string firstName = HttpContext.Request.Form["Batchid"];
+            BatchTest batchTest = new BatchTest();
+            batchTest.BatchId = Batchid;
+            batchTest.BatchVersion = Batchversion;
+            batchTest.TestId = TestId;
+            batchTest.TestVersion = 1;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(batchTest);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", batchTest.BatchId);
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", batchTest.TestId);
+            return View(batchTest);
         }
     }
 }
