@@ -16,7 +16,7 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="TestId" />
+            <input type="hidden" asp-for="TestId" value="@ViewBag.TestId" />
             <input type="hidden" asp-for="TestVersion" />
             <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
@@ -107,11 +107,15 @@
 
         <h2>Add Procedure</h2>
 
-        @{var index = 0;
-        await Html.RenderPartialAsync("addProcedurePartial", new WebAppCore.Models.TestProc());
+        @{
+            await Html.RenderPartialAsync("addProcedurePartial", new WebAppCore.Models.TestProc{ TestId = Model.TestId});
         }
 
+        <h2>Add Requirement</h2>
 
+        @{
+        await Html.RenderPartialAsync("addReq", new WebAppCore.Models.Requirement(), new ViewDataDictionary(ViewData) { { "TestId", Model.TestId } });
+        }
 
     </div>
 </div>

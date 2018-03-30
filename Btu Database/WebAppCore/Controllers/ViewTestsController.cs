@@ -160,12 +160,36 @@ namespace WebAppCore.Controllers
             return View(test);
         }
 
-        // POST: ViewTests/AddProc
+        // GET: ViewTests/AddProc/5
+        public async Task<IActionResult> AddProcedurePartial(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var proc = await _context.Test
+                .Include(t => t.Ecu)
+                .Include(t => t.User)
+                .Include(t => t.TestProc)
+                .ThenInclude(tp => tp.Proc)
+                .Include(tr => tr.Requirement)
+                .SingleOrDefaultAsync(m => m.TestId == id); ;
+            if (proc == null)
+            {
+                return NotFound();
+            }
+            ViewData["EcuId"] = new SelectList(_context.Ecu, "EcuId", "EcuModel", proc.EcuId);
+            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", proc.UserId);
+            return View(proc);
+        }
+
+        // POST: ViewTests/AddProc/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProc(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters")] TestProc Procedure)
+        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters")] TestProc Procedure)
         {
             if (id != Procedure.TestId)
             {

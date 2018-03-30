@@ -5,15 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>TestProc</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddProc">
+        <form asp-action="AddProcedurePartial">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BatchId" />
             <input type="hidden" asp-for="BatchVersion" />
-            <input type="hidden" asp-for="TestId" />
+            <input type="hidden" asp-for="TestId" value="@ViewBag.TestId" />
             <input type="hidden" asp-for="TestVersion" />
             <div class="form-group">
                 <label asp-for="ProcId" class="control-label"></label>
@@ -36,7 +36,7 @@
                 <span asp-validation-for="Passed" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Add Procedure" class="btn btn-default" />
             </div>
         </form>
     </div>

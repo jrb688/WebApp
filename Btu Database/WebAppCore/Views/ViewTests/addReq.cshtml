@@ -1,0 +1,35 @@
+﻿@model WebAppCore.Models.Requirement
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddProc">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ReqId" class="control-label"></label>
+                <input asp-for="ReqId" class="form-control" />
+                <span asp-validation-for="ReqId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="TestId" />
+            <div class="form-group">
+                <label asp-for="TestVersion" class="control-label"></label>
+                <input asp-for="TestVersion" class="form-control" />
+                <span asp-validation-for="TestVersion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Requirement" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
