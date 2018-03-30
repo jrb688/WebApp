@@ -189,20 +189,28 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters")] TestProc Procedure)
+        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters,Passed,Order")] TestProc Procedure)
         {
             if (id != Procedure.TestId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            var btu_DatabaseContext = _context.TestProc.Include(tp => tp.Proc).Include(tp => tp.Req);
+            var results = from info in btu_DatabaseContext select info;
+            results = results.Where(s => (s.TestId == id));
+            Procedure.Order = results.Count();
+            Procedure.BatchId = 0;
+            Procedure.BatchVersion = 0;
+            Procedure.TestId = 1;
+            Procedure.TestVersion = 1;
+            Procedure.ReqId = 0;
+            Procedure.Parameters = "";
+
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
-                    Procedure.BatchId = 0;
-                    Procedure.BatchVersion = 0;
-                    Procedure.Parameters = "Test";
                     _context.Update(Procedure);
                     await _context.SaveChangesAsync();
                 }
@@ -217,9 +225,9 @@ namespace WebAppCore.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(Procedure);
+                //return RedirectToAction(nameof(Index));
+            //}
+            return RedirectToAction("Edit", "ViewTests", new { id = 1 });
         }
         // GET: ViewTests/Delete/5
         public async Task<IActionResult> Delete(int? id)

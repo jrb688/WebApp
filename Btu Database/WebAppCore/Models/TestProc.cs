@@ -13,6 +13,7 @@ namespace WebAppCore.Models
         public int? ReqId { get; set; }
         public string Parameters { get; set; }
         public int? Passed { get; set; }
+        public int Order { get; set; }
 
         public Batch Batch { get; set; }
         public Procedure Proc { get; set; }
