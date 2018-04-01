@@ -184,12 +184,12 @@ namespace WebAppCore.Controllers
             return View(proc);
         }
 
-        // POST: ViewTests/AddProc/5
+        // POST: ViewTests/AddProccedurePartial/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters,Passed,Order")] TestProc Procedure)
+        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("TestId,TestVersion,ProcId,BatchId,BatchVersion,Order,Parameters,Passed,ReqId")] TestProc Procedure)
         {
             if (id != Procedure.TestId)
             {

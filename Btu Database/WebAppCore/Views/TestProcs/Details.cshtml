@@ -1,0 +1,61 @@
+﻿@model WebAppCore.Models.TestProc
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TestProc</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Parameters)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parameters)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Passed)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Passed)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Batch)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Batch.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Proc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Proc.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Req)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Req.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Test)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Test.TestId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
