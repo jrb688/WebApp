@@ -81,7 +81,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model){
+                @foreach (var item in Model)
+                {
                     if (item.Display == 1)
                     {
                         if (item.Status == "Queued")
@@ -91,21 +92,22 @@
                         else if (item.Status == "Complete")
                         {@Html.Raw("<tr class='info'>")}
 
-                            <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                            <td>@Html.DisplayFor(modelItem => item.SimId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
-                            <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                            <td>@if (item.Status == "Queued")
-                            {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove from Queue</button>}
-                            else if (item.Status == "Complete")
-                            {<button type="submit" class='btn btn-info' asp-controller="BatchTests" asp-action="Details" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
-                                </td>
-                        @Html.Raw("</tr>")
-                    }
-                }
-            </tbody>
-        </table>
-    </form>
-</div>
+                    <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SimId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+            @if (item.Status == "Queued")
+            {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove from Queue</button>}
+            else if (item.Status == "Complete")
+            {<button type="submit" class='btn btn-info' asp-controller="BatchTests" asp-action="Details" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
+    </td>
+    @Html.Raw("</tr>")
+}
+}
+                </tbody>
+            </table>
+        </form>
+    </div>

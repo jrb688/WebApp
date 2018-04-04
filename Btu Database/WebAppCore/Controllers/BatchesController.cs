@@ -9,17 +9,31 @@ using WebAppCore.Models;
 
 namespace WebAppCore.Controllers
 {
-    public class QueuesController : Controller
+    public class BatchesController : Controller
     {
         private readonly Btu_DatabaseContext _context;
 
-        public QueuesController(Btu_DatabaseContext context)
+        public BatchesController(Btu_DatabaseContext context)
         {
             _context = context;
         }
 
+        // GET: SearchTestBatches
+        public async Task<IActionResult> Index(string searchString)
+        {
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser);
+            var batch = from info in btu_DatabaseContext
+                        select info;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                batch = batch.Where(s => s.Name.Contains(searchString));
+            }
+            return View(await btu_DatabaseContext.ToListAsync());
+        }
+
         // GET: Queues
-        public async Task<IActionResult> Index(int? BatchId, string BatchName, int? SimId, string Ecu, string Tester, bool Queued = false, bool Running = false, bool Complete = false, bool search = false)
+        public async Task<IActionResult> Queues(int? BatchId, string BatchName, int? SimId, string Ecu, string Tester, bool Queued = false, bool Running = false, bool Complete = false, bool search = false)
         {
             var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.Sim.Ecu).Include(b => b.TesterUser);
             var results = from info in btu_DatabaseContext select info;
@@ -60,9 +74,10 @@ namespace WebAppCore.Controllers
                     results = results.Where(s => s.Status.Equals("Queued") | s.Status.Equals("Complete"));
                 }
             }
-            
+
             return View(await results.ToListAsync());
         }
+
 
         // POST: Queues/Delete/5
         [HttpPost, ActionName("Remove")]
@@ -157,60 +172,24 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? version)
+        public async Task<IActionResult> Edit(int? id, int? version, string message = null)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id && m.BatchVersion == version);
-            if (batch == null)
-            {
-                return NotFound();
-            }
-            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", batch.AuthorUserId);
-            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", batch.SimId);
-            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", batch.TesterUserId);
-            return View(batch);
-        }
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser).Include(b => b.BatchTest);
+            var batch = from info in btu_DatabaseContext
+                        select info;
+            batch = batch.Where(s => (s.BatchId == id && s.BatchVersion == version));
+            var singleBatch = batch.FirstOrDefault();
 
-        // POST: Queues/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
-        {
-            if (id != batch.BatchId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(batch);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BatchExists(batch.BatchId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", batch.AuthorUserId);
-            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", batch.SimId);
-            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", batch.TesterUserId);
-            return View(batch);
+            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.AuthorUserId);
+            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", singleBatch.SimId);
+            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.TesterUserId);
+            ViewData["Message"] = message;
+            return View(singleBatch);
         }
 
         // POST: Queues/Edit/5
@@ -252,7 +231,7 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? version)
         {
             if (id == null)
             {
@@ -263,7 +242,7 @@ namespace WebAppCore.Controllers
                 .Include(b => b.AuthorUser)
                 .Include(b => b.Sim)
                 .Include(b => b.TesterUser)
-                .SingleOrDefaultAsync(m => m.BatchId == id);
+                .SingleOrDefaultAsync(m => (m.BatchId == id && m.BatchVersion == version));
             if (batch == null)
             {
                 return NotFound();
@@ -275,10 +254,33 @@ namespace WebAppCore.Controllers
         // POST: Queues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int version)
         {
-            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id);
-            _context.Batch.Remove(batch);
+            var batch = _context.Batch.Include(b => b.BatchTest).Include(b => b.TestProc);
+            var results = from info in batch select info;
+            results = results.Where(m => (m.BatchId == id && m.BatchVersion == version));
+            foreach(Batch b in results)
+            {
+                _context.Batch.Remove(b);
+            }
+
+            var testBatch = _context.BatchTest;
+            var results2 = from info in testBatch select info;
+            results2 = results2.Where(m => (m.BatchId == id && m.BatchVersion == version));
+            foreach (BatchTest bt in results2)
+            {
+                _context.BatchTest.Remove(bt);
+            }
+
+            var testProc = _context.TestProc;
+            var results3 = from info in testProc select info;
+            results3 = results3.Where(m => (m.BatchId == id && m.BatchVersion == version));
+            foreach (TestProc tp in results3)
+            {
+                _context.TestProc.Remove(tp);
+            }
+
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -291,7 +293,54 @@ namespace WebAppCore.Controllers
         // GET: Queues/AddTests/5
         public async Task<IActionResult> AddTests(int? BatchId, int? BatchVersion)
         {
-            return RedirectToAction("AddTests", "BatchTests", new { Batchid = BatchId, Batchversion = BatchVersion });
+            var btu_DatabaseContext = _context.Test;
+            var tests = from info in btu_DatabaseContext select info;
+            var btu_DatabaseContext2 = _context.BatchTest;
+            var batchTests = from info in btu_DatabaseContext2 select info;
+            batchTests = batchTests.Where(s => (s.BatchId == BatchId && s.BatchVersion == BatchVersion));
+
+            foreach(var batchTest in batchTests)
+            {
+                tests = tests.Where(s => s.BatchTest != batchTest);
+            }
+
+            //var retVal = tests.FirstOrDefault() ?? new NullTime();
+
+            ViewData["BatchId"] = BatchId;
+            ViewData["BatchVersion"] = BatchVersion;
+            if(btu_DatabaseContext == null)
+            {
+                return View(tests);
+            }
+            if(tests != null && tests.Any())
+            {
+                return View(tests);
+            }
+
+            return RedirectToAction(nameof(Edit), new { id = BatchId, version = BatchVersion, message = "No Unused Tests" });
+        }
+
+        // Post: Queues/AddTests/5
+        [HttpPost, ActionName("AddTests")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTests(int TestId, int BatchId, int BatchVersion)
+        {
+            string firstName = HttpContext.Request.Form["Batchid"];
+            BatchTest batchTest = new BatchTest();
+            batchTest.BatchId = BatchId;
+            batchTest.BatchVersion = BatchVersion;
+            batchTest.TestId = TestId;
+            batchTest.TestVersion = 1;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(batchTest);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", batchTest.BatchId);
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", batchTest.TestId);
+            return View(batchTest);
         }
     }
 }

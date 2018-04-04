@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    String BatchId = ViewData["BatchId"].ToString();
 }
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                Add Test
+                Add Test @BatchId
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)

@@ -180,11 +180,11 @@ namespace WebAppCore.Controllers
         // Post: Queues/AddTests/5
         [HttpPost, ActionName("AddTests")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTests(int TestId, int Batchid, int Batchversion)
+        public async Task<IActionResult> AddTests(int TestId, [FromQuery] string Batchid, [FromQuery] int Batchversion)
         {
             string firstName = HttpContext.Request.Form["Batchid"];
             BatchTest batchTest = new BatchTest();
-            batchTest.BatchId = Batchid;
+            batchTest.BatchId = int.Parse(Batchid);
             batchTest.BatchVersion = Batchversion;
             batchTest.TestId = TestId;
             batchTest.TestVersion = 1;

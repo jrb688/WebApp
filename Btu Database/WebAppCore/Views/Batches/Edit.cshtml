@@ -1,0 +1,101 @@
+﻿@model WebAppCore.Models.Batch
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>Batch</h4>
+
+<hr />
+<div class="panel panel-default">
+    <form asp-action="EditNew">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Batch ID</th>
+                    <th>Batch Version</th>
+                    <th>Author</th>
+                    <th>Simulator</th>
+                    <th>Batch Name</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                    <tr class="info1">
+                        <td>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="BatchId" />
+                            <input type="hidden" asp-for="BatchVersion" />
+                            <div class="form-group">
+                                @Html.DisplayFor(model => model.BatchId)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                @Html.DisplayFor(model => model.BatchVersion)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select asp-for="AuthorUserId" class="form-control" asp-items="ViewBag.AuthorUserId"></select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select asp-for="SimId" class="form-control" asp-items="ViewBag.SimId"></select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </td>
+                    </tr>                
+            </tbody>
+
+        </table>
+        <div class="form-group">
+            <input type="submit" value="Save Changes" class="btn btn-default" />
+        </div>
+    </form>
+</div>
+<div class="panel panel-default">
+    <h4>Tests</h4>
+    <a asp-action="AddTests" asp-route-BatchId="@Model.BatchId" asp-route-BatchVersion="@Model.BatchVersion">Add New</a>
+    <h4 style="color:red;">@ViewData["Message"]</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Test ID</th>
+                <th>Test Version</th>
+                <th>Author</th>
+                <th>ECU</th>
+                <th>Test Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.BatchTest)
+            {
+                <tr class="info1">
+                    <td>@Html.DisplayFor(modelItem => item.TestId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BatchVersion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
