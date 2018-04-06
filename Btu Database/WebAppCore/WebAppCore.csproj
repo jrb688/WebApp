@@ -6,17 +6,36 @@
 
   <ItemGroup>
     <Compile Remove="Views\EditTest\**" />
+    <Compile Remove="Views\NewFolder1\**" />
+    <Compile Remove="Views\NewFolder\**" />
     <Compile Remove="Views\ViewTest\**" />
     <Content Remove="Views\EditTest\**" />
+    <Content Remove="Views\NewFolder1\**" />
+    <Content Remove="Views\NewFolder\**" />
     <Content Remove="Views\ViewTest\**" />
     <EmbeddedResource Remove="Views\EditTest\**" />
+    <EmbeddedResource Remove="Views\NewFolder1\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="Views\ViewTest\**" />
     <None Remove="Views\EditTest\**" />
+    <None Remove="Views\NewFolder1\**" />
+    <None Remove="Views\NewFolder\**" />
     <None Remove="Views\ViewTest\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="HomeController.cs" />
+    <Compile Remove="HomeController1.cs" />
+    <Compile Remove="Views\Index2.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Index.cshtml" />
+    <Content Remove="Views\Batches\Index1.cshtml" />
     <Content Remove="Views\Index.cshtml" />
+    <Content Remove="Views\Index1.cshtml" />
+    <Content Remove="Views\Index2.cshtml" />
+    <Content Remove="Views\_Layout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
