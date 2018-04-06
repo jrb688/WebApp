@@ -45,43 +45,13 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
-        <h2>Current Procedures: </h2>
+
+        <h2>Current Requirements:</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        Name
-                    </th>
-                    <th>
-                        Parameters
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var Procedures in Model.TestProc)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(ModelItem => Procedures.Proc.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(ModelItem => Procedures.Parameters)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "DeleteProc", new { id = Procedures.TestId, ProcID = Procedures.Proc.ProcId })
 
-                    </td>
-                </tr>
-        }
-            </tbody>
-        </table>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Current Requirements:
                     </th>
                     <th></th>
                 </tr>
@@ -97,23 +67,50 @@
                         @Html.DisplayFor(ModelItem => Req.Description)
                     </td>
                     <td>
-                        @Html.ActionLink("Delete", "DeleteReq", new { id = Req.TestId, ProcID = Req.ReqId })
+                        @Html.ActionLink("Delete", "Delete", "TestProcs", new { id = Req.TestId, ProcID = Req.ReqId })
 
                     </td>
                 </tr>
         }
             </tbody>
         </table>
+        <br /><br />
+        <h2>Current Procedures: </h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Parameters
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-        <h2>Add Procedure</h2>
+                @foreach (var Procedures in Model.TestProc)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(ModelItem => Procedures.Proc.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(ModelItem => Procedures.Parameters)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", "TestProcs", new { ProcID = Procedures.Proc.ProcId, Testid = Procedures.TestId })
 
-        @Html.ActionLink("Add Procedure", "create", "TestProcs", new {TestId = Model.TestId })
-
-        <h2>Add Requirement</h2>
-
-        @{
-            await Html.RenderPartialAsync("addReq", new WebAppCore.Models.Requirement(), new ViewDataDictionary(ViewData) { { "TestId", Model.TestId }, { "TestVersion", Model.TestVersion } });
+                    </td>
+                </tr>
         }
+
+            </tbody>
+        </table>
+        <br /><br />
+        <h4>@Html.ActionLink("Add Requirement", "Create", "Requirements", new { TestId = (int)Model.TestId, TestVersion = (int)Model.TestVersion }, null)</h4>
+        <h4>@Html.ActionLink("Add Procedure", "Create", "TestProcs", new { TestId = (int)Model.TestId, TestVersion = (int)Model.TestVersion }, null)</h4>
 
     </div>
 </div>

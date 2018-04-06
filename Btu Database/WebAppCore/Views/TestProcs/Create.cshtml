@@ -13,23 +13,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BatchId" class="control-label"></label>
-                <select asp-for="BatchId" class="form-control" asp-items="ViewBag.BatchId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="BatchVersion" class="control-label"></label>
-                <select asp-for="BatchVersion" class="form-control" asp-items="ViewBag.BatchVersion"></select>
-            </div>
             <input type="hidden" asp-for="TestId" />
-            <div class="form-group">
-                <label asp-for="TestId" class="control-label"></label>
-                <select asp-for="TestId" class="form-control" asp-items="ViewBag.TestId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TestVersion" class="control-label"></label>
-                <select asp-for="TestVersion" class="form-control" asp-items="ViewBag.TestVersion"></select>
-            </div>
+            <input type="hidden" asp-for="BatchId" value="0" />
+            <input type="hidden" asp-for="BatchVersion" value="0" />
+
+            <input type="hidden" asp-for="TestVersion" />
             <div class="form-group">
                 <label asp-for="ProcId" class="control-label"></label>
                 <select asp-for="ProcId" class="form-control" asp-items="ViewBag.ProcId"></select>
@@ -43,16 +31,8 @@
                 <input asp-for="Parameters" class="form-control" />
                 <span asp-validation-for="Parameters" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Passed" class="control-label"></label>
-                <input asp-for="Passed" class="form-control" />
-                <span asp-validation-for="Passed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order" class="control-label"></label>
-                <input asp-for="Order" class="form-control" />
-                <span asp-validation-for="Order" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Passed" value="0" />
+            <input type="hidden" asp-for="Order" value="0" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -61,6 +41,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ViewTests\Index" >Back to Tests</a>
 </div>
 
