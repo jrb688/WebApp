@@ -56,11 +56,12 @@
         @foreach (var Procedure in Model.TestProc)
         {
             <dd>
-                @Html.DisplayFor(ModelItem => Procedure.Proc.Name)
+                @Html.DisplayFor(ModelItem => Procedure.Proc.Description)
 
             </dd>
         }
     </dl>
+    <br /><br />
     <dl class="dl-horizontal">
         <dt>
             Requirements:
@@ -68,8 +69,7 @@
         @foreach (var Req in Model.Requirement)
         {
             <dd>
-                @Html.DisplayFor(ModelItem => Req.ReqId)
-                @Html.DisplayFor(ModelItem => Req.Description)
+               @Html.DisplayFor(ModelItem => Req.Description)
             </dd>
         }
         <dd></dd>
