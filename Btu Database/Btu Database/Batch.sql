@@ -4,7 +4,7 @@
 	[BatchVersion] INT NOT NULL,
 	[Author_UserId] INT NOT NULL,
 	[Tester_UserId] INT NULL,
-	[SimId] INT NOT NULL,
+	[SimId] INT NULL,
 	[Name] Varchar(32) NULL,
 	[Status] Varchar(8) NOT NULL,
 	[DateCreated] datetime NOT NULL,
