@@ -169,7 +169,7 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? version, string message = null)
+        public async Task<IActionResult> Edit(int? id, int? version)
         {
             if (id == null)
             {
@@ -185,7 +185,6 @@ namespace WebAppCore.Controllers
             ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.AuthorUserId);
             ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", singleBatch.SimId);
             ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.TesterUserId);
-            ViewData["Message"] = message;
             return View(singleBatch);
         }
 
