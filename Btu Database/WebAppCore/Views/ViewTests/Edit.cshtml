@@ -67,7 +67,7 @@
                         @Html.DisplayFor(ModelItem => Req.Description)
                     </td>
                     <td>
-                        @Html.ActionLink("Delete", "Delete", "TestProcs", new { id = Req.TestId, ProcID = Req.ReqId })
+                        @Html.ActionLink("Delete", "DeleteReq", "TestProcs", new { id = Req.TestId, ProcID = Req.ReqId })
 
                     </td>
                 </tr>
@@ -100,7 +100,7 @@
                         @Html.DisplayFor(ModelItem => Procedures.Parameters)
                     </td>
                     <td>
-                        @Html.ActionLink("Delete", "Delete", "TestProcs", new { ProcID = Procedures.Proc.ProcId, Testid = Procedures.TestId })
+                        @Html.ActionLink("Delete", "DeleteProc", "TestProcs", new { ProcID = Procedures.Proc.ProcId, Testid = Procedures.TestId })
 
                     </td>
                 </tr>
