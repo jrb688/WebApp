@@ -11,7 +11,7 @@
 
 <hr />
 <div class="panel panel-default">
-    <form asp-action="EditNew">
+    <form asp-action="EditConfirmed">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -66,7 +66,6 @@
 <div class="panel panel-default">
     <h4>Tests</h4>
     <a asp-action="AddTests" asp-route-BatchId="@Model.BatchId" asp-route-BatchVersion="@Model.BatchVersion">Add New</a>
-    <h4 style="color:red;">@ViewData["Message"]</h4>
     <table class="table table-striped">
         <thead>
             <tr>
