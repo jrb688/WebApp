@@ -19,10 +19,17 @@ namespace WebAppCore.Controllers
         }
 
         // GET: TestProcs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id, int version)
         {
+            
             var btu_DatabaseContext = _context.TestProc.Include(t => t.Batch).Include(t => t.Proc).Include(t => t.Req).Include(t => t.Test);
-            return View(await btu_DatabaseContext.ToListAsync());
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(id));
+            results = results.Where(t => t.TestVersion.Equals(version));
+
+            return View(await results.ToListAsync());
+
         }
 
         // GET: TestProcs/Details/5
@@ -48,8 +55,9 @@ namespace WebAppCore.Controllers
         }
 
         // GET: TestProcs/Create
-        public IActionResult Create(int id, int version)
+        public IActionResult Create(int TestId, int TestVersion)
         {
+
             ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status");
             ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description");
             ViewData["ReqId"] = new SelectList(_context.Requirement, "ReqId", "Description");
@@ -65,11 +73,12 @@ namespace WebAppCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters,Passed,Order")] TestProc testProc)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(testProc);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "ViewTests", new { area = "ViewTests" });
             }
             ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", testProc.BatchId);
             ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description", testProc.ProcId);
@@ -138,19 +147,15 @@ namespace WebAppCore.Controllers
         }
 
         // GET: TestProcs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? procId, int testId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+           
+            var btu_DatabaseContext = _context.TestProc.Include(t => t.Batch).Include(t => t.Proc).Include(t => t.Req).Include(t => t.Test);
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(testId));
+            var testProc = await results.FirstOrDefaultAsync(m => m.ProcId == procId);
 
-            var testProc = await _context.TestProc
-                .Include(t => t.Batch)
-                .Include(t => t.Proc)
-                .Include(t => t.Req)
-                .Include(t => t.Test)
-                .SingleOrDefaultAsync(m => m.TestId == id);
             if (testProc == null)
             {
                 return NotFound();
@@ -160,10 +165,11 @@ namespace WebAppCore.Controllers
         }
 
         // POST: TestProcs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int pId)
         {
+
             var testProc = await _context.TestProc.SingleOrDefaultAsync(m => m.TestId == id);
             _context.TestProc.Remove(testProc);
             await _context.SaveChangesAsync();
