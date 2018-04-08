@@ -264,5 +264,132 @@ namespace WebAppCore.Controllers
         {
             return _context.Test.Any(e => e.TestId == id);
         }
+
+        // GET: TestProcs/Create
+        public IActionResult CreateProc(int TestId, int TestVersion)
+        {
+
+            ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status");
+            ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description");
+            ViewData["ReqId"] = new SelectList(_context.Requirement, "ReqId", "Description");
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId");
+            ViewData["Test"] = new SelectList(_context.Test, "TestVersion", "TestVersion");
+            return View();
+        }
+
+        // POST: TestProcs/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProcConfirmed([Bind("BatchId,BatchVersion,TestId,TestVersion,ProcId,ReqId,Parameters,Passed,Order")] TestProc testProc)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(testProc);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "ViewTests", new { area = "ViewTests" });
+            }
+            ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", testProc.BatchId);
+            ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description", testProc.ProcId);
+            ViewData["ReqId"] = new SelectList(_context.Requirement, "ReqId", "Description", testProc.ReqId);
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", testProc.TestId);
+            return View(testProc);
+        }
+
+        // GET: TestProcs/Delete/5
+        public async Task<IActionResult> DeleteProc(int? procId, int testId)
+        {
+
+            var btu_DatabaseContext = _context.TestProc.Include(t => t.Batch).Include(t => t.Proc).Include(t => t.Req).Include(t => t.Test);
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(testId));
+            var testProc = await results.FirstOrDefaultAsync(m => m.ProcId == procId);
+
+            if (testProc == null)
+            {
+                return NotFound();
+            }
+
+            return View(testProc);
+        }
+
+        // POST: TestProcs/Delete/5
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteProcConfirmed(int id, int pId)
+        {
+
+            var testProc = await _context.TestProc.SingleOrDefaultAsync(m => m.TestId == id);
+            _context.TestProc.Remove(testProc);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool TestProcExists(int id)
+        {
+            return _context.TestProc.Any(e => e.TestId == id);
+        }
+
+        public IActionResult CreateReq(int TestId, int TestVersion)
+        {
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId");
+            return View();
+        }
+
+        // POST: Requirements/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateReqConfirmed([Bind("ReqId,TestId,TestVersion,Description")] Requirement requirement)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(requirement);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "ViewTests", new { area = "ViewTests" });
+            }
+            ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", requirement.TestId);
+            return View(requirement);
+        }
+
+        // GET: Requirements/Delete/5
+        public async Task<IActionResult> DeleteReq(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var requirement = await _context.Requirement
+                .Include(r => r.Test)
+                .SingleOrDefaultAsync(m => m.ReqId == id);
+            if (requirement == null)
+            {
+                return NotFound();
+            }
+
+            return View(requirement);
+        }
+
+        // POST: Requirements/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReqConfirmed(int id)
+        {
+            var requirement = await _context.Requirement.SingleOrDefaultAsync(m => m.ReqId == id);
+            _context.Requirement.Remove(requirement);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool RequirementExists(int id)
+        {
+            return _context.Requirement.Any(e => e.ReqId == id);
+        }
     }
+
 }
