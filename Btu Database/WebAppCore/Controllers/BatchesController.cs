@@ -92,17 +92,6 @@ namespace WebAppCore.Controllers
             results = results.Where(s => (s.BatchVersion == version));
 
             return View(await results.ToListAsync());
-
-            //var batchTest = await _context.BatchTest
-            //    .Include(b => b.Batch)
-            //    .Include(b => b.Test)
-            //    .SingleOrDefaultAsync(m => m.BatchId == id);
-            //if (batchTest == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(batchTest);
         }
 
 
@@ -160,26 +149,7 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(batch);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", batch.AuthorUserId);
-            ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", batch.SimId);
-            ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", batch.TesterUserId);
-            return View(batch);
-        }
-
-        // POST: Queues/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateNew([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
+        public async Task<IActionResult> CreateConfirmed([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
         {
             batch.Status = "Made";
             batch.DateCreated = DateTime.Now;
@@ -224,7 +194,7 @@ namespace WebAppCore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditNew([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
+        public async Task<IActionResult> EditConfirmed([Bind("BatchId,BatchVersion,AuthorUserId,TesterUserId,SimId,Name,Status,DateCreated,DateRun,Display")] Batch batch)
         {
             var currentState = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == batch.BatchId && m.BatchVersion == batch.BatchVersion);
             currentState.AuthorUserId = batch.AuthorUserId;
@@ -350,7 +320,7 @@ namespace WebAppCore.Controllers
         // Post: Queues/AddTests/5
         [HttpPost, ActionName("AddTests")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTests(int TestId, int BatchId, int BatchVersion)
+        public async Task<IActionResult> AddTestsConfirmed(int TestId, int BatchId, int BatchVersion)
         {
             string firstName = HttpContext.Request.Form["Batchid"];
             BatchTest batchTest = new BatchTest();

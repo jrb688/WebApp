@@ -40,7 +40,7 @@
         {
             <tr>
                 <td>
-                    <form asp-action="AddTests">
+                    <form asp-action="AddTestsConfirmed">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="@item.TestId" name="TestId" />
                         <input type="hidden" asp-for="@ViewData["BatchId"]" name="BatchId" />
