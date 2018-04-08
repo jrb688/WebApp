@@ -1,0 +1,11 @@
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.deps.json
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.runtimeconfig.json
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.runtimeconfig.dev.json
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.dll
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\bin\Debug\netcoreapp2.0\WebAppCore.pdb
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.csprojResolveAssemblyReference.cache
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.csproj.CoreCompileInputs.cache
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.AssemblyInfoInputs.cache
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.AssemblyInfo.cs
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.dll
+C:\Users\Esif\WebApp\Btu Database\WebAppCore\obj\Debug\netcoreapp2.0\WebAppCore.pdb

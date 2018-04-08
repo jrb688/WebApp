@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Btu Database", "Btu Database\Btu Database.sqlproj", "{CC73B621-39FA-4F7C-ABC0-30BF60B6432A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppCore", "WebAppCore\WebAppCore.csproj", "{C6C71B10-F945-45C4-AACA-CB9FD9D4745C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppCore", "WebAppCore\WebAppCore.csproj", "{C6C71B10-F945-45C4-AACA-CB9FD9D4745C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
