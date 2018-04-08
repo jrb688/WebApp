@@ -78,6 +78,33 @@ namespace WebAppCore.Controllers
             return View(await results.ToListAsync());
         }
 
+        // GET: BatchTests/Details/5
+        public async Task<IActionResult> Results(int? id, int? version)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var btu_DatabaseContext = _context.BatchTest.Include(bt => bt.Batch).ThenInclude(b => b.Sim).ThenInclude(s => s.Ecu).Include(bt => bt.Test).ThenInclude(t => t.TestProc).ThenInclude(tp => tp.Proc).Include(bt => bt.Test).ThenInclude(t => t.Requirement);
+            var results = from info in btu_DatabaseContext select info;
+            results = results.Where(s => (s.BatchId == id));
+            results = results.Where(s => (s.BatchVersion == version));
+
+            return View(await results.ToListAsync());
+
+            //var batchTest = await _context.BatchTest
+            //    .Include(b => b.Batch)
+            //    .Include(b => b.Test)
+            //    .SingleOrDefaultAsync(m => m.BatchId == id);
+            //if (batchTest == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(batchTest);
+        }
+
 
         // POST: Queues/Delete/5
         [HttpPost, ActionName("Remove")]

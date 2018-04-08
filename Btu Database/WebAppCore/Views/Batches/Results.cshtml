@@ -1,0 +1,116 @@
+﻿@model IEnumerable<WebAppCore.Models.BatchTest>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Batch Results</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Batch ID:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().BatchId)
+        </dd>
+        <dt>
+            Batch Name:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.Name)
+        </dd>
+        <dt>
+            Batch Date Run:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.DateRun)
+        </dd>
+        <dt>
+            Batch Author:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.AuthorUserId)
+        </dd>
+        <dt>
+            Batch Tester:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.TesterUserId)
+        </dd>
+        <dt>
+            Simulator Run On:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.SimId)
+        </dd>
+        <dt>
+            ECU Tested:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstOrDefault().Batch.Sim.Ecu.EcuModel)
+        </dd>
+    </dl>
+</div>
+
+<div class="panel-group" id="accordion1">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                @{ bool batchPassed = true;
+                    foreach (var item in Model)
+                    {
+                        batchPassed = (item.Passed == 1);
+                        if (!batchPassed)
+                        {
+                            break;
+                        }
+                    }
+
+                    <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
+                        Test Batch Version @Html.DisplayFor(model => model.FirstOrDefault().BatchVersion) @if (batchPassed)
+                        {<span class="label label-success">Success</span>}
+                        else
+                        {<span class="label label-danger">Fail</span>}
+                    </a>
+                }
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="panel-body">
+                    <div class="panel-group" id="accordion21">
+                        @{int testNum = 1;
+                            foreach (var item in Model)
+                            {
+                                bool testPassed = (item.Passed == 1);
+                                <div class="panel">
+                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapse2_@testNum">Test @Html.DisplayFor(ModelItem => item.TestId).@Html.DisplayFor(ModelItem => item.TestVersion): @Html.DisplayFor(ModelItem => item.Test.Name) @if (testPassed)
+                                    {<span class="label label-success">Success</span>}
+                                    else
+                                    {<span class="label label-danger">Fail</span>}&raquo;</a>
+                                    <div id="collapse2_@testNum" class="panel-collapse collapse">
+                                        @foreach (var proc in item.Test.TestProc)
+                                        {
+                                            if (proc.BatchId == item.BatchId && proc.BatchVersion == item.BatchVersion)
+                                            {
+                                                bool procPassed = (proc.Passed == 1);
+                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px; padding-left:15px;"><h4>@Html.DisplayFor(ModelItem => proc.Proc.Name) @if (procPassed)
+                                                {<span class="label label-success">Success</span>}
+                                                else
+                                                {<span class="label label-danger">Fail</span>}</h4></div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                testNum = testNum + 1;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
