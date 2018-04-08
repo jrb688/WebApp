@@ -78,9 +78,7 @@
         <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
         <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
         <td>
-            <a asp-action="Create" asp-route-id="@item.BatchId">Edit Test Info</a> |
-            <a asp-action="EditBatch" asp-route-id="@item.BatchId">Edit Test Batch Info</a> |
-            <a asp-action="AddTests" asp-route-id="@item.BatchId">AddTests?</a>
+            <a asp-action="Edit" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Edit Test Info</a>
 
         </td>
         <td>

@@ -69,9 +69,12 @@
                         }
                     }
 
-                <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
-                    Test Batch Version @Html.DisplayFor(model => model.FirstOrDefault().BatchVersion) @if (batchPassed) {<span class="label label-success">Success</span>} else {<span class="label label-danger">Fail</span>}
-                </a>
+                    <a data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo">
+                        Test Batch Version @Html.DisplayFor(model => model.FirstOrDefault().BatchVersion) @if (batchPassed)
+                        {<span class="label label-success">Success</span>}
+                        else
+                        {<span class="label label-danger">Fail</span>}
+                    </a>
                 }
             </h4>
         </div>
@@ -84,17 +87,23 @@
                             {
                                 bool testPassed = (item.Passed == 1);
                                 <div class="panel">
-                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapse2_@testNum">Test @Html.DisplayFor(ModelItem => item.TestId).@Html.DisplayFor(ModelItem => item.TestVersion): @Html.DisplayFor(ModelItem => item.Test.Name) @if (testPassed) {<span class="label label-success">Success</span>} else {<span class="label label-danger">Fail</span>}&raquo;</a>
+                                    <a data-toggle="collapse" data-parent="#accordion21" href="#collapse2_@testNum">Test @Html.DisplayFor(ModelItem => item.TestId).@Html.DisplayFor(ModelItem => item.TestVersion): @Html.DisplayFor(ModelItem => item.Test.Name) @if (testPassed)
+                                    {<span class="label label-success">Success</span>}
+                                    else
+                                    {<span class="label label-danger">Fail</span>}&raquo;</a>
                                     <div id="collapse2_@testNum" class="panel-collapse collapse">
-                                        @foreach(var proc in item.Test.TestProc)
+                                        @foreach (var proc in item.Test.TestProc)
                                         {
                                             if (proc.BatchId == item.BatchId && proc.BatchVersion == item.BatchVersion)
                                             {
                                                 bool procPassed = (proc.Passed == 1);
-                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px; padding-left:15px;"><h4>@Html.DisplayFor(ModelItem => proc.Proc.Name) @if (procPassed) {<span class="label label-success">Success</span>} else{<span class="label label-danger">Fail</span>}</h4></div>
+                                                <div class="panel-body" style="padding-top:5px; padding-bottom:5px; padding-left:15px;"><h4>@Html.DisplayFor(ModelItem => proc.Proc.Name) @if (procPassed)
+                                                {<span class="label label-success">Success</span>}
+                                                else
+                                                {<span class="label label-danger">Fail</span>}</h4></div>
                                             }
                                         }
-                                    </div>   
+                                    </div>
                                 </div>
                                 testNum = testNum + 1;
                             }

@@ -21,7 +21,7 @@ namespace WebAppCore.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View();
         }
 
         // GET: Users/Details/5
@@ -48,21 +48,45 @@ namespace WebAppCore.Controllers
             return View();
         }
 
-        // POST: Users/Create
+        // POST: CreateNewAccount/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Password,Email,Privilege")] User user)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Password,Email")] User user, bool Privilege = false)
         {
             if (ModelState.IsValid)
             {
+                if (Privilege)
+                {
+                    user.Privilege = "Admin";
+                }
+                else
+                {
+                    user.Privilege = "User";
+                }
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(user);
+            return View("Index");
         }
+
+        //// POST: Users/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Password,Email,Privilege")] User user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(user);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(user);
+        //}
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
