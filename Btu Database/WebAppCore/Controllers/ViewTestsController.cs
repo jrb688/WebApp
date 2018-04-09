@@ -160,75 +160,7 @@ namespace WebAppCore.Controllers
             return View(test);
         }
 
-        // GET: ViewTests/AddProc/5
-        public async Task<IActionResult> AddProcedurePartial(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var proc = await _context.Test
-                .Include(t => t.Ecu)
-                .Include(t => t.User)
-                .Include(t => t.TestProc)
-                .ThenInclude(tp => tp.Proc)
-                .Include(tr => tr.Requirement)
-                .SingleOrDefaultAsync(m => m.TestId == id); ;
-            if (proc == null)
-            {
-                return NotFound();
-            }
-            ViewData["EcuId"] = new SelectList(_context.Ecu, "EcuId", "EcuModel", proc.EcuId);
-            ViewData["UserId"] = new SelectList(_context.User, "UserId", "Email", proc.UserId);
-            return View(proc);
-        }
-
-        // POST: ViewTests/AddProccedurePartial/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProcedurePartial(int id, [Bind("TestId,TestVersion,ProcId,BatchId,BatchVersion,Order,Parameters,Passed,ReqId")] TestProc Procedure)
-        {
-            if (id != Procedure.TestId)
-            {
-                return NotFound();
-            }
-
-            var btu_DatabaseContext = _context.TestProc.Include(tp => tp.Proc).Include(tp => tp.Req);
-            var results = from info in btu_DatabaseContext select info;
-            results = results.Where(s => (s.TestId == id));
-            Procedure.Order = results.Count();
-            Procedure.BatchId = 0;
-            Procedure.BatchVersion = 0;
-            Procedure.TestId = 1;
-            Procedure.TestVersion = 1;
-            Procedure.ReqId = 0;
-            Procedure.Parameters = "";
-
-            //if (ModelState.IsValid)
-            //{
-                try
-                {
-                    _context.Update(Procedure);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TestExists(Procedure.ProcId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                //return RedirectToAction(nameof(Index));
-            //}
-            return RedirectToAction("Edit", "ViewTests", new { id = 1 });
-        }
+        
         // GET: ViewTests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -265,7 +197,7 @@ namespace WebAppCore.Controllers
             return _context.Test.Any(e => e.TestId == id);
         }
 
-        // GET: TestProcs/Create
+        // GET: ViewTests/CreateProc
         public IActionResult CreateProc(int TestId, int TestVersion)
         {
 
@@ -277,7 +209,7 @@ namespace WebAppCore.Controllers
             return View();
         }
 
-        // POST: TestProcs/Create
+        // POST: ViewTests/CreateProcConfirmed
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -298,8 +230,8 @@ namespace WebAppCore.Controllers
             return View(testProc);
         }
 
-        // GET: TestProcs/Delete/5
-        public async Task<IActionResult> DeleteProc(int? procId, int testId)
+        // GET: ViewTests/DeleteProc
+        public async Task<IActionResult> DeleteProc(int procId, int testId)
         {
 
             var btu_DatabaseContext = _context.TestProc.Include(t => t.Batch).Include(t => t.Proc).Include(t => t.Req).Include(t => t.Test);
@@ -316,13 +248,17 @@ namespace WebAppCore.Controllers
             return View(testProc);
         }
 
-        // POST: TestProcs/Delete/5
-        [HttpPost, ActionName("DeleteConfirmed")]
+        // POST: ViewTests/DeleteProc/5
+        [HttpPost, ActionName("DeleteProcConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProcConfirmed(int id, int pId)
+        public async Task<IActionResult> DeleteProcConfirmed(int procId, int testId)
         {
 
-            var testProc = await _context.TestProc.SingleOrDefaultAsync(m => m.TestId == id);
+            var btu_DatabaseContext = _context.TestProc.Include(t => t.Batch).Include(t => t.Proc).Include(t => t.Req).Include(t => t.Test);
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(testId));
+            var testProc = await results.FirstOrDefaultAsync(m => m.ProcId == procId);
             _context.TestProc.Remove(testProc);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -333,16 +269,16 @@ namespace WebAppCore.Controllers
             return _context.TestProc.Any(e => e.TestId == id);
         }
 
+
+        // GET: ViewTests/CreateReq
         public IActionResult CreateReq(int TestId, int TestVersion)
         {
             ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId");
             return View();
         }
 
-        // POST: Requirements/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: ViewTests/CreateReqConfirmed
+        [HttpPost, ActionName("CreateReqConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReqConfirmed([Bind("ReqId,TestId,TestVersion,Description")] Requirement requirement)
         {
@@ -356,17 +292,15 @@ namespace WebAppCore.Controllers
             return View(requirement);
         }
 
-        // GET: Requirements/Delete/5
-        public async Task<IActionResult> DeleteReq(int? id)
+        // GET: ViewTests/DeleteReq
+        public async Task<IActionResult> DeleteReq(int reqId, int testId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var requirement = await _context.Requirement
-                .Include(r => r.Test)
-                .SingleOrDefaultAsync(m => m.ReqId == id);
+            var btu_DatabaseContext = _context.Requirement.Include(t => t.Test);
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(testId));
+            var requirement = await results.FirstOrDefaultAsync(m => m.ReqId == reqId);
             if (requirement == null)
             {
                 return NotFound();
@@ -375,12 +309,16 @@ namespace WebAppCore.Controllers
             return View(requirement);
         }
 
-        // POST: Requirements/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: ViewTests/DeleteReqConfirmed/5
+        [HttpPost, ActionName("DeleteReqConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteReqConfirmed(int id)
+        public async Task<IActionResult> DeleteReqConfirmed(int reqId, int testId)
         {
-            var requirement = await _context.Requirement.SingleOrDefaultAsync(m => m.ReqId == id);
+            var btu_DatabaseContext = _context.Requirement.Include(t => t.Test);
+            var results = from info in btu_DatabaseContext
+                          select info;
+            results = results.Where(s => s.TestId.Equals(testId));
+            var requirement = await results.FirstOrDefaultAsync(m => m.ReqId == reqId);
             _context.Requirement.Remove(requirement);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
