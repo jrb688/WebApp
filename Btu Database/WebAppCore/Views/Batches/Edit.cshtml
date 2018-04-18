@@ -24,42 +24,47 @@
             </thead>
 
             <tbody>
-                    <tr class="info1">
-                        <td>
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="BatchId" />
-                            <input type="hidden" asp-for="BatchVersion" />
-                            <div class="form-group">
-                                @Html.DisplayFor(model => model.BatchId)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                @Html.DisplayFor(model => model.BatchVersion)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <select asp-for="AuthorUserId" class="form-control" asp-items="ViewBag.AuthorUserId"></select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <select asp-for="SimId" class="form-control" asp-items="ViewBag.SimId"></select>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                        </td>
-                    </tr>                
+                <tr class="info1">
+                    <td>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="BatchId" />
+                        <input type="hidden" asp-for="BatchVersion" />
+                        <div class="form-group">
+                            @Html.DisplayFor(model => model.BatchId)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            @Html.DisplayFor(model => model.BatchVersion)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="AuthorUserId" class="form-control" asp-items="ViewBag.AuthorUserId"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select asp-for="SimId" class="form-control" asp-items="ViewBag.SimId"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
 
         </table>
         <div class="form-group">
             <input type="submit" value="Save Changes" class="btn btn-default" />
+        </div>
+    </form>
+    <form asp-action="Run" asp-route-BatchId="@Model.BatchId" asp-route-BatchVersion="@Model.BatchVersion">
+        <div class="form-group">
+            <input type="submit" value="Run Batch" class="btn btn-default" />
         </div>
     </form>
 </div>
@@ -82,10 +87,10 @@
             {
                 <tr class="info1">
                     <td>@Html.DisplayFor(modelItem => item.TestId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BatchVersion)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BatchId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TestVersion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Test.User.FirstName) @Html.DisplayFor(modelItem => item.Test.User.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Test.Ecu.EcuModel)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Test.Name)</td>
                 </tr>
 
             }

@@ -24,13 +24,10 @@
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateRun)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Ecu)
             </th>
             <th>
-                Tester
+                Author
             </th>
             <th></th>
         </tr>
@@ -43,6 +40,7 @@
                     <form asp-action="AddTestsConfirmed">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="@item.TestId" name="TestId" />
+                        <input type="hidden" asp-for="@item.TestVersion" name="TestVersion"/>
                         <input type="hidden" asp-for="@ViewData["BatchId"]" name="BatchId" />
                         <input type="hidden" asp-for="@ViewData["BatchVersion"]" name="BatchVersion" />
                         <input type="submit" value="Add" class="btn btn-default" />
@@ -61,14 +59,10 @@
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateRun)
+                    @Html.DisplayFor(modelItem => item.EcuId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Ecu.EcuModel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.FirstName)
-                    @Html.DisplayFor(modelItem => item.User.LastName)
+                    @Html.DisplayFor(modelItem => item.UserId)
                 </td>
             </tr>
         }

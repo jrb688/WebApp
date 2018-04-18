@@ -21,9 +21,11 @@ namespace WebAppCore.Controllers
         // GET: SearchTestBatches
         public async Task<IActionResult> Index(string searchString)
         {
-            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser);
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).ThenInclude(s => s.Ecu).Include(b => b.TesterUser);
             var batch = from info in btu_DatabaseContext
                         select info;
+
+            batch = batch.Where(m => m.BatchId != 0);
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -95,12 +97,12 @@ namespace WebAppCore.Controllers
         }
 
 
-        // POST: Queues/Delete/5
+        // POST: Queues/Remove
         [HttpPost, ActionName("Remove")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove(int id, int version)
         {
-            var batch = await _context.Batch.SingleOrDefaultAsync(m => m.BatchId == id);
+            var batch = await _context.Batch.SingleOrDefaultAsync(m => (m.BatchId == id && m.BatchVersion == version));
             _context.Update(batch);
             if (batch.Status.Equals("Complete"))
             {
@@ -111,10 +113,95 @@ namespace WebAppCore.Controllers
                 batch.Status = "Made";
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Queues));
         }
 
-        // GET: Queues/Details/5
+        // POST: Queues/Complete
+        [HttpPost, ActionName("Complete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Complete(int id, int version)
+        {
+            var batch = await _context.Batch.SingleOrDefaultAsync(m => (m.BatchId == id && m.BatchVersion == version));
+            _context.Update(batch);
+            batch.Status = "Complete";
+
+            var testProcsContext = _context.TestProc.Where(m => (m.BatchId == id && m.BatchVersion == version));
+            var testProcs = from info in testProcsContext select info;
+
+
+            var batchTestsContext = _context.BatchTest.Where(m => (m.BatchId == id && m.BatchVersion == version));
+            var batchTests = from info in batchTestsContext select info;
+
+            var random = new Random();
+            bool testPassed = true;
+            int currentTest;
+            int currentVersion;
+            int lastTest = -1;
+            int lastVersion = -1;
+            BatchTest bt;
+            foreach (TestProc tp in testProcs)
+            {
+                _context.Update(tp);
+                currentTest = tp.TestId;
+                currentVersion = tp.TestVersion;
+                if(random.NextDouble() <= .8)
+                {
+                    tp.Passed = 1;
+                }
+                else
+                {
+                    tp.Passed = 0;
+                    testPassed = false;
+                }
+
+                if((currentTest != lastTest || currentVersion != lastVersion) && lastTest != -1)
+                {
+                    bt = await batchTests.SingleOrDefaultAsync(m => (m.TestId == lastTest && m.TestVersion == lastVersion));
+                    if (testPassed)
+                    {
+                        bt.Passed = 1;
+                    }
+                    else
+                    {
+                        bt.Passed = 0;
+                    }
+                    testPassed = true;
+                }
+
+                lastTest = currentTest;
+                lastVersion = currentVersion;
+            }
+
+            bt = await batchTests.SingleOrDefaultAsync(m => (m.TestId == lastTest && m.TestVersion == lastVersion));
+            if (testPassed)
+            {
+                bt.Passed = 1;
+            }
+            else
+            {
+                bt.Passed = 0;
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Queues));
+        }
+
+        // POST: Queues/Run
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Run(int BatchId, int BatchVersion)
+        {
+            var batch = await _context.Batch.SingleOrDefaultAsync(m => (m.BatchId == BatchId && m.BatchVersion == BatchVersion));
+            _context.Update(batch);
+            batch.Display = 1;
+            batch.Status = "Running";
+            batch.DateRun = DateTime.Now;
+            batch.TesterUserId = batch.AuthorUserId;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Queues));
+        }
+
+        // GET: Queues/Details/
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -176,7 +263,7 @@ namespace WebAppCore.Controllers
                 return NotFound();
             }
 
-            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser).Include(b => b.BatchTest);
+            var btu_DatabaseContext = _context.Batch.Include(b => b.AuthorUser).Include(b => b.Sim).Include(b => b.TesterUser).Include(b => b.BatchTest).ThenInclude(bt => bt.Test).ThenInclude(t => t.User).Include(b => b.BatchTest).ThenInclude(bt => bt.Test).ThenInclude(t => t.Ecu);
             var batch = from info in btu_DatabaseContext
                         select info;
             batch = batch.Where(s => (s.BatchId == id && s.BatchVersion == version));
@@ -317,26 +404,44 @@ namespace WebAppCore.Controllers
         }
 
         // Post: Queues/AddTests/5
-        [HttpPost, ActionName("AddTests")]
+        [HttpPost, ActionName("AddTestsConfirmed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTestsConfirmed(int TestId, int BatchId, int BatchVersion)
+        public async Task<IActionResult> AddTestsConfirmed(int TestId, int TestVersion, int BatchId, int BatchVersion)
         {
-            string firstName = HttpContext.Request.Form["Batchid"];
             BatchTest batchTest = new BatchTest();
             batchTest.BatchId = BatchId;
             batchTest.BatchVersion = BatchVersion;
             batchTest.TestId = TestId;
-            batchTest.TestVersion = 1;
+            batchTest.TestVersion = TestVersion;
+
+            var testProcsContext = _context.TestProc.Where(m => (m.BatchId == 0 && m.BatchVersion == 0));
+            var testProcs = from info in testProcsContext select info;
+
+            foreach (TestProc tp in testProcs)
+            {
+                TestProc newTestProc = new TestProc();
+                newTestProc.BatchId = BatchId;
+                newTestProc.BatchVersion = BatchVersion;
+                newTestProc.TestId = TestId;
+                newTestProc.TestVersion = TestVersion;
+                newTestProc.ProcId = tp.ProcId;
+                newTestProc.ReqId = tp.ReqId;
+                newTestProc.Parameters = tp.Parameters;
+                newTestProc.Passed = null;
+                newTestProc.Order = tp.Order;
+
+                _context.Add(newTestProc);
+            }
 
             if (ModelState.IsValid)
             {
                 _context.Add(batchTest);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = BatchId, version = BatchVersion });
             }
             ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", batchTest.BatchId);
             ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", batchTest.TestId);
-            return View(batchTest);
+            return RedirectToAction(nameof(Edit), new { id = BatchId, version = BatchVersion});
         }
     }
 }
