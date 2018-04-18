@@ -376,19 +376,27 @@ namespace WebAppCore.Controllers
         // GET: Queues/AddTests/5
         public async Task<IActionResult> AddTests(int? BatchId, int? BatchVersion)
         {
-            var btu_DatabaseContext = _context.Test;
+            var btu_DatabaseContext = _context.Test.Include(t => t.BatchTest);
             var tests = from info in btu_DatabaseContext select info;
-            var btu_DatabaseContext2 = _context.BatchTest;
-            var batchTests = from info in btu_DatabaseContext2 select info;
-            batchTests = batchTests.Where(s => (s.BatchId == BatchId && s.BatchVersion == BatchVersion));
+            //var btu_DatabaseContext2 = _context.BatchTest;
+            //var batchTests = from info in btu_DatabaseContext2 select info;
+            //batchTests = batchTests.Where(s => (s.BatchId == BatchId && s.BatchVersion == BatchVersion));
 
-            foreach(var batchTest in batchTests)
+            //foreach(var batchTest in batchTests)
+            //{
+            //    tests = tests.Where(s => s.BatchTest != batchTest);
+            //}
+            
+
+            foreach(Test t in tests)
             {
-                tests = tests.Where(s => s.BatchTest != batchTest);
+                foreach (BatchTest bt in t.BatchTest)
+                {
+                    int i = bt.TestId;
+                    tests = tests.Where(s => (s.TestId != i));
+                }
             }
-
-            //var retVal = tests.FirstOrDefault() ?? new NullTime();
-
+            
             ViewData["BatchId"] = BatchId;
             ViewData["BatchVersion"] = BatchVersion;
             if(btu_DatabaseContext == null)
