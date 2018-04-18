@@ -91,20 +91,25 @@
             <tbody>
 
                 @foreach (var Procedures in Model.TestProc)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(ModelItem => Procedures.Proc.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(ModelItem => Procedures.Parameters)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "DeleteProc",  new { procID = Procedures.Proc.ProcId, testid = Procedures.TestId })
+                {
+                    if (Procedures.BatchId == 0)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(ModelItem => Procedures.Proc.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(ModelItem => Procedures.Parameters)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "DeleteProc",  new { procID = Procedures.Proc.ProcId, testid = Procedures.TestId })
 
-                    </td>
-                </tr>
-        }
+                            </td>
+                        </tr>
+
+                    }
+                
+                }
 
             </tbody>
         </table>

@@ -394,9 +394,10 @@ namespace WebAppCore.Controllers
                 foreach (BatchTest bt in t.BatchTest)
                 {
                     int tId = bt.TestId;
+                    int tVer = bt.TestVersion;
                     int bId = bt.BatchId;
                     int bVer = bt.BatchVersion;
-                    tests = tests.Where(s => !(s.TestId == tId && bId == BatchId && bVer == BatchVersion));
+                    tests = tests.Where(s => !(s.TestId == tId && s.TestVersion == tVer && bId == BatchId && bVer == BatchVersion));
                 }
             }
             
@@ -425,7 +426,7 @@ namespace WebAppCore.Controllers
             batchTest.TestId = TestId;
             batchTest.TestVersion = TestVersion;
 
-            var testProcsContext = _context.TestProc.Where(m => (m.BatchId == 0 && m.BatchVersion == 0));
+            var testProcsContext = _context.TestProc.Where(m => (m.BatchId == 0 && m.BatchVersion == 0 && m.TestId == TestId && m.TestVersion == TestVersion));
             var testProcs = from info in testProcsContext select info;
 
             foreach (TestProc tp in testProcs)

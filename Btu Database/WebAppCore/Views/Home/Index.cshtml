@@ -20,20 +20,20 @@
 </head>
 <body>
     @*<div class="container">
-        <div class="col-md-4 col-md-offset-4">
-            <form class="form-signin">
-                <h2 class="form-signin-heading">Please log in</h2>
-                <div class="col-xs-8">
-                    <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" class="form-control col-xs-3" placeholder="Email address" required autofocus>
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </div>
-            </form>
-        </div>
-    </div>*@
+            <div class="col-md-4 col-md-offset-4">
+                <form class="form-signin">
+                    <h2 class="form-signin-heading">Please log in</h2>
+                    <div class="col-xs-8">
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <input type="email" id="inputEmail" class="form-control col-xs-3" placeholder="Email address" required autofocus>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                        <br>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>*@
 
 
     @{
@@ -62,19 +62,16 @@
             </div>
     </nav>
     <ul class="nav nav-pills">
-        <li> @Html.ActionLink("Users", "Index", "Users", null)</li>
-    </ul>
-    <ul class="nav nav-pills">
-        <li> @Html.ActionLink("Create New User", "Index", "CreateNewAccount", null)</li>
+        <li> @Html.ActionLink("Create New User", "Index", "Users", null)</li>
     </ul>
     <ul class="nav nav-pills">
         <li> @Html.ActionLink("Batches", "Index", "Batches", null)</li>
     </ul>
     <ul class="nav nav-pills">
-        <li> @Html.ActionLink("View Tests", "Index", "ViewTests", null)</li>
+        <li> @Html.ActionLink("Queue", "Queues", "Batches", null)</li>
     </ul>
     <ul class="nav nav-pills">
-        <li> @Html.ActionLink("Register", "Index", "Register", null)</li>
+        <li> @Html.ActionLink("Tests", "Index", "ViewTests", null)</li>
     </ul>
 </body>
 </html>

@@ -113,7 +113,7 @@ namespace WebAppCore.Controllers
                 .Include(t => t.TestProc)
                 .ThenInclude(tp => tp.Proc)
                 .Include(tr => tr.Requirement)
-                .SingleOrDefaultAsync(m => m.TestId == id); ;
+                .SingleOrDefaultAsync(m => m.TestId == id);
             if (test == null)
             {
                 return NotFound();
@@ -202,7 +202,7 @@ namespace WebAppCore.Controllers
         {
 
             ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status");
-            ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description");
+            ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Name");
             ViewData["ReqId"] = new SelectList(_context.Requirement, "ReqId", "Description");
             ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId");
             ViewData["Test"] = new SelectList(_context.Test, "TestVersion", "TestVersion");
