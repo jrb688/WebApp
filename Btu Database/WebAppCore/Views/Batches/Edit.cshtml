@@ -70,7 +70,11 @@
 </div>
 <div class="panel panel-default">
     <h4>Tests</h4>
-    <a asp-action="AddTests" asp-route-BatchId="@Model.BatchId" asp-route-BatchVersion="@Model.BatchVersion">Add New</a>
+    <p><font color="red">@ViewData["Message"]</font></p>
+    @if (ViewData["Message"] == null)
+    {
+        <a asp-action="AddTests" asp-route-BatchId="@Model.BatchId" asp-route-BatchVersion="@Model.BatchVersion">Add New</a>
+    }
     <table class="table table-striped">
         <thead>
             <tr>

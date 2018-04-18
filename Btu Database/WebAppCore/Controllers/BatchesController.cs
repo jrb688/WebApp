@@ -256,7 +256,7 @@ namespace WebAppCore.Controllers
         }
 
         // GET: Queues/Edit/5
-        public async Task<IActionResult> Edit(int? id, int? version)
+        public async Task<IActionResult> Edit(int? id, int? version, string message)
         {
             if (id == null)
             {
@@ -269,6 +269,7 @@ namespace WebAppCore.Controllers
             batch = batch.Where(s => (s.BatchId == id && s.BatchVersion == version));
             var singleBatch = batch.FirstOrDefault();
 
+            ViewData["Message"] = message;
             ViewData["AuthorUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.AuthorUserId);
             ViewData["SimId"] = new SelectList(_context.Simulator, "SimId", "SimId", singleBatch.SimId);
             ViewData["TesterUserId"] = new SelectList(_context.User, "UserId", "Email", singleBatch.TesterUserId);
@@ -392,8 +393,10 @@ namespace WebAppCore.Controllers
             {
                 foreach (BatchTest bt in t.BatchTest)
                 {
-                    int i = bt.TestId;
-                    tests = tests.Where(s => (s.TestId != i));
+                    int tId = bt.TestId;
+                    int bId = bt.BatchId;
+                    int bVer = bt.BatchVersion;
+                    tests = tests.Where(s => !(s.TestId == tId && bId == BatchId && bVer == BatchVersion));
                 }
             }
             
