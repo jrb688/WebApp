@@ -71,20 +71,19 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-
-        <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
-        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-        <td>@Html.DisplayFor(modelItem => item.SimId)</td>
-        <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
-        <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Edit Test Info</a>
-
-        </td>
-        <td>
-    </td>
-    @Html.Raw("</tr>")
-}
+                    if (item.BatchId != 0)
+                    {
+                        <tr>
+                        <td>@Html.DisplayFor(modelItem => item.BatchId).@Html.DisplayFor(modelItem => item.BatchVersion) </td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SimId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sim.Ecu.EcuModel)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TesterUser.FirstName) @Html.DisplayFor(modelItem => item.TesterUser.LastName)</td>
+                        <td><a asp-action="Edit" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Edit Test Info</a></td>
+                        <td></td>
+                        </tr>
+                    }
+                }
             </table>
         </form>
     </div>

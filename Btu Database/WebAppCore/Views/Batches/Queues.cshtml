@@ -102,7 +102,7 @@
             @if (item.Status == "Queued")
             {<button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Remove from Queue</button>}
             else if (item.Status == "Complete")
-            {<button type="submit" class='btn btn-info' asp-controller="Batches" asp-action="Results" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId">Remove</button>}
+            {<button type="submit" class='btn btn-info' asp-controller="Batches" asp-action="Results" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">View Results</button> <button type='submit' class='btn btn-danger' asp-action="Remove" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Remove</button>}
             else if (item.Status == "Running")
             {<button type="submit" class='btn btn-info' asp-controller="Batches" asp-action="Complete" asp-route-id="@item.BatchId" asp-route-version="@item.BatchVersion">Finish Running</button>}
     </td>
