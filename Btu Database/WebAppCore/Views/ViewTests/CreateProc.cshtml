@@ -19,15 +19,15 @@
 
             <input type="hidden" asp-for="TestVersion" />
             <div class="form-group">
-                <label asp-for="ProcId" class="control-label"></label>
+                <label asp-for="ProcId" class="control-label">Procedure</label>
                 <select asp-for="ProcId" class="form-control" asp-items="ViewBag.ProcId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="ReqId" class="control-label"></label>
+                <label asp-for="ReqId" class="control-label">Requirement Description</label>
                 <select asp-for="ReqId" class="form-control" asp-items="ViewBag.ReqId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Parameters" class="control-label"></label>
+                <label asp-for="Parameters" class="control-label">Parameters *Required</label>
                 <input asp-for="Parameters" class="form-control" />
                 <span asp-validation-for="Parameters" class="text-danger"></span>
             </div>

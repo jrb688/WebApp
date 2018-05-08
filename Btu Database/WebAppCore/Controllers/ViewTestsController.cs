@@ -221,7 +221,7 @@ namespace WebAppCore.Controllers
             {
                 _context.Add(testProc);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "ViewTests", new { area = "ViewTests" });
+                return RedirectToAction("Edit", "ViewTests", new { id= testProc.TestId });
             }
             ViewData["BatchId"] = new SelectList(_context.Batch, "BatchId", "Status", testProc.BatchId);
             ViewData["ProcId"] = new SelectList(_context.Procedure, "ProcId", "Description", testProc.ProcId);
@@ -286,7 +286,7 @@ namespace WebAppCore.Controllers
             {
                 _context.Add(requirement);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "ViewTests", new { area = "ViewTests" });
+                return RedirectToAction("Edit", "ViewTests", new { id = requirement.TestId });
             }
             ViewData["TestId"] = new SelectList(_context.Test, "TestId", "TestId", requirement.TestId);
             return View(requirement);
